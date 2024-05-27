@@ -7,7 +7,7 @@ DATABASE_URL = 'mysql://root@localhost:3306/artistic_gallery'
 
 def create_database_if_not_exists():
     # Replace 'username' and 'password' with your actual MySQL username and password
-    engine = sqlalchemy.create_engine('mysql://username:password@localhost:3306')
+    engine = sqlalchemy.create_engine('mysql://root:root@localhost:3306')
     conn = engine.connect()
     conn.execute("CREATE DATABASE IF NOT EXISTS artistic_gallery")
     conn.close()
