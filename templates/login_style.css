@@ -14,6 +14,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
+    text-align: center;
 }
 
 .login-container h2 {
@@ -23,6 +24,7 @@ body {
 
 .input-group {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .input-group label {
@@ -56,14 +58,25 @@ button:hover {
 
 .forgot-password {
     margin-top: 10px;
-    text-align: center;
 }
 
-.forgot-password a {
+.forgot-password a,
+.signup-link a {
     color: #007bff;
     text-decoration: none;
 }
 
-.forgot-password a:hover {
+.forgot-password a:hover,
+.signup-link a:hover {
     text-decoration: underline;
+}
+
+.signup-link {
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
 }
