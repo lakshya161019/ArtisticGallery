@@ -3,11 +3,12 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f4f4f4;
+    background-color: #1a1a1a; /* Dark background */
+    color: #fff; /* White text */
 }
 
 header {
-    background: #007bff;
+    background: #262626; /* Dark gray header background */
     color: #fff;
     padding: 1rem 0;
 }
@@ -42,7 +43,7 @@ header .nav-links a {
 }
 
 header .nav-links a:hover {
-    background: #555;
+    background: #444; /* Darker shade of gray for hover effect */
     border-radius: 4px;
 }
 
@@ -64,7 +65,7 @@ header .nav-links a:hover {
 }
 
 .hero .btn {
-    background: #007bff;
+    background: #007bff; /* Blue button color */
     color: white;
     padding: 1rem 2rem;
     text-decoration: none;
@@ -72,7 +73,7 @@ header .nav-links a:hover {
 }
 
 .hero .btn:hover {
-    background: #0056b3;
+    background: #0056b3; /* Darker shade of blue on hover */
 }
 
 .content {
@@ -87,7 +88,7 @@ header .nav-links a:hover {
 }
 
 footer {
-    background: #007bff;
+    background: #262626; /* Dark gray footer background */
     color: white;
     text-align: center;
     padding: 1rem 0;
