@@ -44,10 +44,8 @@ def signup():
         mobile_number = request.form['mobile_number']
         user_type = request.form['user_type']
         address = request.form['address']
+        username= request.form['username']
         password = request.form['password']
-
-        hashed_password = generate_password_hash(password)
-
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
@@ -62,7 +60,8 @@ def signup():
             mobile_number=mobile_number,
             user_type=user_type,
             address=address,
-            password_hash=hashed_password
+            username=username,
+            password=password
         )
 
 
