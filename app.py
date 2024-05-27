@@ -46,9 +46,6 @@ def signup():
         address = request.form['address']
         password = request.form['password']
 
-        hashed_password = generate_password_hash(password)
-
-
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email already exists. Please use a different email.', 'error')
@@ -62,7 +59,7 @@ def signup():
             mobile_number=mobile_number,
             user_type=user_type,
             address=address,
-            password_hash=hashed_password
+            password=password
         )
 
 
