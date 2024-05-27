@@ -1,12 +1,25 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, render_template_string
+from werkzeug.security import check_password_hash
+
 from models import User, Session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 @app.route('/')
-def login():
-    return render_template('login.html')
+def login(users=None):
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = users.get(email)
+
+        if user and check_password_hash(user['password'], password):
+            return redirect(url_for('index'))
+        else:
+            return "Invalid credentials, please try again.", 401
+
+    return render_template_string(open('login.htm').read())
+
 
 @app.route('/login', methods=['POST'])
 def login_post():
