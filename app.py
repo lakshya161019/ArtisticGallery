@@ -1,24 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, render_template_string
-from werkzeug.security import check_password_hash
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from models import User, Session
+from models import User, Session, UserTypes, UserDetails
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
 @app.route('/')
-def login(users=None):
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user = users.get(email)
-
-        if user and check_password_hash(user['password'], password):
-            return redirect(url_for('index'))
-        else:
-            return "Invalid credentials, please try again.", 401
-
-    return render_template_string(open('login.htm').read())
-
+def login():
+    return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login_post():
@@ -29,51 +19,67 @@ def login_post():
     user = session.query(User).filter_by(username=username).first()
     session.close()
 
-    if user and user.password == password:
+    if user and check_password_hash(user.password, password):
         return redirect(url_for('home'))
     else:
         flash('Invalid username or password')
         return redirect(url_for('login'))
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup')
 def signup():
-    if request.method == 'POST':
-        name = request.form['name']
-        surname = request.form['surname']
-        email = request.form['email']
-        mobile_number = request.form['mobile_number']
-        user_type = request.form['user_type']
-        address = request.form['address']
-        username= request.form['username']
-        password = request.form['password']
-
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            flash('Email already exists. Please use a different email.', 'error')
-            return redirect(url_for('signup'))
-
-
-        new_user = User(
-            name=name,
-            surname=surname,
-            email=email,
-            mobile_number=mobile_number,
-            user_type=user_type,
-            address=address,
-            username=username,
-            password=password
-        )
-
-
-        db.session.add(new_user)
-        db.session.commit()
-
-        flash('Account created successfully! You can now log in.', 'success')
-        return redirect(url_for('login'))
-
-
     return render_template('signup.html')
 
+@app.route('/signup', methods=['POST'])
+def signup_post():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    name = request.form.get('name')
+    surname = request.form.get('surname')
+    email = request.form.get('email')
+    mobile_number = request.form.get('mobile_number')
+    address = request.form.get('address')
+    user_type_name = request.form.get('user_type')
+
+    session = Session()
+
+    existing_user = session.query(User).filter_by(username=username).first()
+    existing_email = session.query(UserDetails).filter_by(email=email).first()
+
+    if existing_user:
+        flash('Username already exists')
+        session.close()
+        return redirect(url_for('signup'))
+
+    if existing_email:
+        flash('Email already exists')
+        session.close()
+        return redirect(url_for('signup'))
+
+    user_type = session.query(UserTypes).filter_by(type_name=user_type_name).first()
+    if not user_type:
+        user_type = UserTypes(type_name=user_type_name)
+        session.add(user_type)
+        session.commit()
+
+    new_user = User(username=username, password=generate_password_hash(password))
+    session.add(new_user)
+    session.commit()
+
+    new_user_details = UserDetails(
+        user_id=new_user.id,
+        name=name,
+        surname=surname,
+        email=email,
+        mobile_number=mobile_number,
+        address=address,
+        user_type_id=user_type.id
+    )
+    session.add(new_user_details)
+    session.commit()
+    session.close()
+
+    flash('User registered successfully')
+    return redirect(url_for('login'))
 
 @app.route('/home')
 def home():
