@@ -5,7 +5,6 @@ from models import User, Session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-
 @app.route('/')
 def login(users=None):
     if request.method == 'POST':
@@ -36,9 +35,46 @@ def login_post():
         flash('Invalid username or password')
         return redirect(url_for('login'))
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if request.method == 'POST':
+        name = request.form['name']
+        surname = request.form['surname']
+        email = request.form['email']
+        mobile_number = request.form['mobile_number']
+        user_type = request.form['user_type']
+        address = request.form['address']
+        password = request.form['password']
+
+        hashed_password = generate_password_hash(password)
+
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email already exists. Please use a different email.', 'error')
+            return redirect(url_for('signup'))
+
+
+        new_user = User(
+            name=name,
+            surname=surname,
+            email=email,
+            mobile_number=mobile_number,
+            user_type=user_type,
+            address=address,
+            password_hash=hashed_password
+        )
+
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Account created successfully! You can now log in.', 'success')
+        return redirect(url_for('login'))
+
+
     return render_template('signup.html')
+
 
 @app.route('/home')
 def home():
