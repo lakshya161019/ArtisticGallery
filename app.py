@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.security import check_password_hash, generate_password_hash
-
+import cryptography
 from models import User, Session, UserTypes, UserDetails
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 @app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/login')
 def login():
     return render_template('login.html')
 
@@ -73,6 +77,7 @@ def signup_post():
         mobile_number=mobile_number,
         address=address,
         user_type_id=user_type.id
+
     )
     session.add(new_user_details)
     session.commit()
@@ -80,10 +85,6 @@ def signup_post():
 
     flash('User registered successfully')
     return redirect(url_for('login'))
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -3,13 +3,13 @@ from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 import sqlalchemy
 
 # Replace 'root' and 'admin' with your actual MySQL username and password
-DATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'
+DATABASE_URL = 'mysql+pymysql://root:root@localhost:3306/artistic_gallery'
 
 import pymysql
 
 def create_database_if_not_exists():
     # Replace 'root' and 'admin' with your actual MySQL username and password
-    conn = pymysql.connect(host='localhost', user='root', password='admin')
+    conn = pymysql.connect(host='localhost', user='root', password='root')
     cursor = conn.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS artistic_gallery")
     conn.close()
