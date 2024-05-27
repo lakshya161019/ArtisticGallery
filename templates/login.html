@@ -12,17 +12,23 @@
         <form action="/login" method="post" novalidate>
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required minlength="8" maxlength="20">
+                <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+                <small class="error-message" id="username-error"></small>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required minlength="8" maxlength="20">
+                <input type="password" id="password" name="password" required minlength="6" maxlength="20">
+                <small class="error-message" id="password-error"></small>
             </div>
             <button type="submit">Login</button>
             <div class="forgot-password">
-                <a href="/forgot-password">Forgot Password?</a>
+                <a href="./forgot_password.html">Forgot Password?</a>
+            </div>
+            <div class="signup-link">
+                <a href="./signup.html">Don't have an account? Sign up here</a>
             </div>
         </form>
     </div>
+    <script src="login_script.js"></script>
 </body>
 </html>
