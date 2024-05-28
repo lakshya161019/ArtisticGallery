@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistic Gallery</title>
-    <link rel="stylesheet" href="static/home.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
     <div style="display:flex;flex-direction:column;min-height:100vh;">
@@ -16,7 +16,12 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact</a></li>
-                    <li><a href="/login">Login</a></li>
+                    {% if username %}
+                        <li><a href="/logout">Logout</a></li>
+                        <li><span>{{ username }}</span></li>
+                    {% else %}
+                        <li><a href="/login">Login</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
@@ -29,7 +34,7 @@
         <section class="art-section">
             <!-- Example of an art card -->
             <div class="art-card">
-                <img src="static/art1.jpg" alt="Artwork 1">
+                <img src="{{ url_for('static', filename='art1.jpg') }}" alt="Artwork 1">
                 <h3>Artwork Title</h3>
                 <p>by Artist Name</p>
                 <div class="contact-info">
@@ -40,7 +45,7 @@
             </div>
 
             <div class="art-card">
-                <img src="static/art2.jpg" alt="Artwork 2">
+                <img src="{{ url_for('static', filename='art2.jpg') }}" alt="Artwork 2">
                 <h3>Artwork Title</h3>
                 <p>by Artist Name</p>
                 <div class="contact-info">
