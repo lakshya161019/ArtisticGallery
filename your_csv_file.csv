@@ -1,6 +1,10 @@
 sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram
-1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram
-2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram
-3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram
-4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram
-5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram
+1,/static/Galleria/Ellora_Caves.jpg,Ellora Caves,Indians, - , - , -
+2,/static/Galleria/Etruscan-Vase-with-Shadows-Betty_woodman.jpeg,Etruscan Vase,Betty Woodman,455985231,betty.w@gmail.com,Betty Woodman_instagram
+3,/static/Galleria/Katie_Spragg_Cimber_2018.jpeg,Climber,Katie Spragg,495869697,katie.S@gmail.com,Katie Spragg_instagram
+4,/static/Galleria/MonaLisa_Leonardo_da_vinci.jpeg,Mona Lisa,Leonardo Da Vinci, - , - , -
+5,/static/Galleria/Ravi_varma.jpeg,Bhanumati,Ravi Varma,854321659,ravi.V@gmail.com,Ravi Varma_instagram
+6,/static/Galleria/Self_Portrait_1900_Picasso.jpeg,Self Portrait,Picasso, - , - , -
+7,/static/Galleria/The_Tomb_of_Pope_Julius_Michalangleo.jpeg,The Tomb of Pope Julius II,Michalangleo, - , - , -
+8,/static/Galleria/The-Great-Sphinx-of-Giza.jpeg,The Great Sphinx of Giza,Egyptians, - , - , -
+9,/static/Galleria/The-Tomb-of-the-Craftsman_Grayson_Perry.jpeg,The Tomb Of Craftsman,Grayson Perry,40568927,grayson.perry@gamil.com,Grayson Perry_instagram
