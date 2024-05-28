@@ -1,0 +1,134 @@
+Index: templates/home.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Artistic Gallery</title>\r\n    <link rel=\"stylesheet\" href=\"static/home.css\">\r\n</head>\r\n<body>\r\n    <div style=\"display:flex;flex-direction:column;min-height:100vh;\">\r\n        <header>\r\n            <nav>\r\n                <div class=\"logo\">Artistic Gallery</div>\r\n                <ul class=\"nav-links\">\r\n                    <li><a href=\"/\">Home</a></li>\r\n                    <li><a href=\"/about\">About</a></li>\r\n                    <li><a href=\"/services\">Services</a></li>\r\n                    <li><a href=\"/contact\">Contact</a></li>\r\n                    <li><a href=\"/login\">Login</a></li>\r\n                </ul>\r\n            </nav>\r\n        </header>\r\n\r\n        <section class=\"hero\" style=\"flex:1;\">\r\n            <h1>Welcome to Artistic Gallery</h1>\r\n            <p>Your one-stop solution for all Art forms.</p>\r\n        </section>\r\n\r\n        <section class=\"art-section\">\r\n            <!-- Example of an art card -->\r\n            <div class=\"art-card\">\r\n                <img src=\"static/art1.jpg\" alt=\"Artwork 1\">\r\n                <h3>Artwork Title</h3>\r\n                <p>by Artist Name</p>\r\n                <div class=\"contact-info\">\r\n                    <p>Phone: (123) 456-7890</p>\r\n                    <p>Email: artist@example.com</p>\r\n                    <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"art-card\">\r\n                <img src=\"static/art2.jpg\" alt=\"Artwork 2\">\r\n                <h3>Artwork Title</h3>\r\n                <p>by Artist Name</p>\r\n                <div class=\"contact-info\">\r\n                    <p>Phone: (123) 456-7890</p>\r\n                    <p>Email: artist@example.com</p>\r\n                    <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n                </div>\r\n            </div>\r\n\r\n            <!-- Repeat similar structure for more art cards -->\r\n        </section>\r\n\r\n        <footer>\r\n            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>\r\n            <ul class=\"footer-links\">\r\n                <li><a href=\"/privacy\">Privacy Policy</a></li>\r\n                <li><a href=\"/terms\">Terms of Service</a></li>\r\n            </ul>\r\n        </footer>\r\n    </div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/home.html b/templates/home.html
+--- a/templates/home.html	
++++ b/templates/home.html	
+@@ -4,10 +4,10 @@
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Artistic Gallery</title>
+-    <link rel="stylesheet" href="static/home.css">
++    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"> <!-- Use Flask's url_for to link to static files -->
+ </head>
+ <body>
+-    <div style="display:flex;flex-direction:column;min-height:100vh;">
++    <div class="wrapper">
+         <header>
+             <nav>
+                 <div class="logo">Artistic Gallery</div>
+@@ -21,36 +21,24 @@
+             </nav>
+         </header>
+ 
+-        <section class="hero" style="flex:1;">
++        <section class="hero">
+             <h1>Welcome to Artistic Gallery</h1>
+             <p>Your one-stop solution for all Art forms.</p>
+         </section>
+ 
+         <section class="art-section">
+-            <!-- Example of an art card -->
+-            <div class="art-card">
+-                <img src="static/art1.jpg" alt="Artwork 1">
+-                <h3>Artwork Title</h3>
+-                <p>by Artist Name</p>
+-                <div class="contact-info">
+-                    <p>Phone: (123) 456-7890</p>
+-                    <p>Email: artist@example.com</p>
+-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+-                </div>
+-            </div>
+-
++            {% for artwork in artwork_details %}
+             <div class="art-card">
+-                <img src="static/art2.jpg" alt="Artwork 2">
+-                <h3>Artwork Title</h3>
+-                <p>by Artist Name</p>
++                <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
++                <h3>{{ artwork.artwork_title }}</h3>
++                <p>by {{ artwork.artist_name }}</p>
+                 <div class="contact-info">
+-                    <p>Phone: (123) 456-7890</p>
+-                    <p>Email: artist@example.com</p>
+-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
++                    <p>Phone: {{ artwork.phone }}</p>
++                    <p>Email: {{ artwork.email }}</p>
++                    <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
+                 </div>
+             </div>
+-
+-            <!-- Repeat similar structure for more art cards -->
++            {% endfor %}
+         </section>
+ 
+         <footer>
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom werkzeug.security import check_password_hash, generate_password_hash\r\nfrom models import User, Session, UserDetails\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'your_secret_key'\r\n\r\n@app.route('/contact')\r\ndef contact():\r\n    return render_template('contact.html')\r\n\r\n@app.route('/services')\r\ndef services():\r\n    return render_template('services.html')\r\n\r\n@app.route('/about')\r\ndef about():\r\n    return render_template('about.html')\r\n\r\n@app.route('/signupconf')\r\ndef signupconf():\r\n    return render_template('signupconf.html')\r\n\r\n@app.route('/')\r\ndef home():\r\n    return render_template('home.html')\r\n\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        session = Session()\r\n\r\n        user = session.query(User).filter_by(username=username).first()\r\n        session.close()\r\n\r\n        if user and check_password_hash(user.password, password):\r\n            return redirect(url_for('home'))\r\n        else:\r\n            return redirect(url_for('login', error='invalid_credentials'))\r\n\r\n    return render_template('login.html')\r\n\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        name = request.form.get('name')\r\n        surname = request.form.get('surname')\r\n        email = request.form.get('email')\r\n        mobile_number = request.form.get('mobile_number')\r\n        address = request.form.get('address')\r\n\r\n        if not password:\r\n            return redirect(url_for('signup', error='password_required'))\r\n\r\n        session = Session()\r\n\r\n        existing_user = session.query(User).filter_by(username=username).first()\r\n        existing_email = session.query(UserDetails).filter_by(email=email).first()\r\n\r\n        if existing_user:\r\n            return redirect(url_for('signup', error='username_exists'))\r\n\r\n        if existing_email:\r\n            return redirect(url_for('signup', error='email_exists'))\r\n\r\n        new_user = User(username=username, password=generate_password_hash(password))\r\n        session.add(new_user)\r\n        session.commit()\r\n\r\n        new_user_details = UserDetails(\r\n            user_id=new_user.id,\r\n            name=name,\r\n            surname=surname,\r\n            email=email,\r\n            mobile_number=mobile_number,\r\n            address=address\r\n        )\r\n        session.add(new_user_details)\r\n        session.commit()\r\n        session.close()\r\n\r\n        return redirect(url_for('signupconf'))\r\n\r\n    return render_template('signup.html')\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	
++++ b/app.py	
+@@ -1,6 +1,24 @@
+ from flask import Flask, render_template, request, redirect, url_for, flash
+ from werkzeug.security import check_password_hash, generate_password_hash
+ from models import User, Session, UserDetails
++import csv
++
++def read_csv_file(file_path):
++    data = []
++    with open(file_path, newline='', encoding='utf-8') as csvfile:
++        reader = csv.DictReader(csvfile)
++        for row in reader:
++            artwork_data = {
++                'sr_no': row['sr. no'],
++                'img_path': row['img path'],
++                'artwork_title': row['Artwork Title'],
++                'artist_name': row['Artist Name'],
++                'phone': row['Phone'],
++                'email': row['Email'],
++                'instagram': row['Instagram']
++            }
++            data.append(artwork_data)
++    return data
+ 
+ app = Flask(__name__)
+ app.secret_key = 'your_secret_key'
+@@ -23,7 +41,12 @@
+ 
+ @app.route('/')
+ def home():
+-    return render_template('home.html')
++    # Read data from CSV file
++    file_path = 'your_csv_file.csv'  # Update with your CSV file path
++    artwork_details = read_csv_file(file_path)
++
++    # Pass the data to the template
++    return render_template('home.html', artwork_details=artwork_details)
+ 
+ @app.route('/login', methods=['GET', 'POST'])
+ def login():
+Index: your_csv_file.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/your_csv_file.csv b/your_csv_file.csv
+new file mode 100644
+--- /dev/null	
++++ b/your_csv_file.csv	
+@@ -0,0 +1,6 @@
++sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram
++1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram
++2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram
++3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram
++4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram
++5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram
