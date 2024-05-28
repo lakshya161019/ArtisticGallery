@@ -3,23 +3,58 @@
 {% block title %}Artistic Gallery{% endblock %}
 
 {% block content %}
+<style>
+    .hero {
+        background-color: #0056b3; /* Dark blue header */
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .art-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .art-card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        width: 300px;
+        text-align: center;
+    }
+
+    .art-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+
+    .contact-info p {
+        margin: 5px 0;
+    }
+</style>
+
 <section class="hero" style="flex:1;">
     <h1>Welcome to Artistic Gallery</h1>
     <p>Your one-stop solution for all Art forms.</p>
 </section>
 
 <section class="art-section">
-            {% for artwork in artwork_details %}
-            <div class="art-card">
-                <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
-                <h3>{{ artwork.artwork_title }}</h3>
-                <p>by {{ artwork.artist_name }}</p>
-                <div class="contact-info">
-                    <p>Phone: {{ artwork.phone }}</p>
-                    <p>Email: {{ artwork.email }}</p>
-                    <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
-                </div>
-            </div>
-            {% endfor %}
-        </section>
+    {% for artwork in artwork_details %}
+    <div class="art-card">
+        <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
+        <h3>{{ artwork.artwork_title }}</h3>
+        <p>by {{ artwork.artist_name }}</p>
+        <div class="contact-info">
+            <p>Phone: {{ artwork.phone }}</p>
+            <p>Email: {{ artwork.email }}</p>
+            <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
+        </div>
+    </div>
+    {% endfor %}
+</section>
 {% endblock %}
