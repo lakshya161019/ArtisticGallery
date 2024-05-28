@@ -25,11 +25,26 @@
                 <a href="./forgot_password.html">Forgot Password?</a>
             </div>
             <div class="signup-link">
-                <a href="/signup">Don't have an account? Sign up here</a
-                >
+                <a href="/signup">Don't have an account? Sign up here</a>
             </div>
         </form>
     </div>
-    <script src="login_script.js"></script>
+    <script>
+        // Function to get query parameters from URL
+        function getQueryParam(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Check for the error query parameter and show an alert if present
+        window.onload = function() {
+            const error = getQueryParam('error');
+            if (error) {
+                if (error === 'invalid_credentials') {
+                    alert('Invalid username or password');
+                }
+            }
+        }
+    </script>
 </body>
 </html>

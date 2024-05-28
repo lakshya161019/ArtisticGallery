@@ -80,3 +80,23 @@ button:hover {
     font-size: 0.875em;
     margin-top: 5px;
 }
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.flashes li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.flashes li.error {
+    background-color: #e74c3c;
+}
+
+.flashes li.success {
+    background-color: #2ecc71;
+}

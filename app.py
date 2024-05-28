@@ -5,11 +5,9 @@ from models import User, Session, UserDetails
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-
 @app.route('/')
 def home():
     return render_template('home.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -24,11 +22,9 @@ def login():
         if user and check_password_hash(user.password, password):
             return redirect(url_for('home'))
         else:
-            flash('Invalid username or password', 'error')
-            return redirect(url_for('login'))
+            return redirect(url_for('login', error='invalid_credentials'))
 
     return render_template('login.html')
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -42,8 +38,7 @@ def signup():
         address = request.form.get('address')
 
         if not password:
-            flash('Password is required', 'error')
-            return redirect(url_for('signup'))
+            return redirect(url_for('signup', error='password_required'))
 
         session = Session()
 
@@ -51,14 +46,10 @@ def signup():
         existing_email = session.query(UserDetails).filter_by(email=email).first()
 
         if existing_user:
-            flash('Username already exists', 'error')
-            session.close()
-            return redirect(url_for('signup'))
+            return redirect(url_for('signup', error='username_exists'))
 
         if existing_email:
-            flash('Email already exists', 'error')
-            session.close()
-            return redirect(url_for('signup'))
+            return redirect(url_for('signup', error='email_exists'))
 
         new_user = User(username=username, password=generate_password_hash(password))
         session.add(new_user)
@@ -76,11 +67,9 @@ def signup():
         session.commit()
         session.close()
 
-        flash('User registered successfully', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('login', success='registered'))
 
     return render_template('signup.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
