@@ -1,0 +1,925 @@
+Index: templates/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>{% block title %}Artistic Gallery{% endblock %}</title>\r\n    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='home.css') }}\">\r\n</head>\r\n<body>\r\n    <div style=\"display:flex;flex-direction:column;min-height:100vh;\">\r\n        <header>\r\n            <nav>\r\n                <div class=\"logo\">Artistic Gallery</div>\r\n                <ul class=\"nav-links\">\r\n                    <li><a href=\"/\">Home</a></li>\r\n                    <li><a href=\"/about\">About</a></li>\r\n                    <li><a href=\"/services\">Services</a></li>\r\n                    <li><a href=\"/contact\">Contact</a></li>\r\n\r\n                    {% if username %}\r\n                        <li><a href=\"/logout\">Logout</a></li>\r\n                        <li><span>{{ username }}</span></li>\r\n                    {% else %}\r\n                        <li><a href=\"/login\">Login</a></li>\r\n                    {% endif %}\r\n                </ul>\r\n            </nav>\r\n        </header>\r\n\r\n        {% block content %}{% endblock %}\r\n\r\n<!--        <footer>-->\r\n<!--            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>-->\r\n<!--            <ul class=\"footer-links\">-->\r\n<!--                <li><a href=\"/privacy\">Privacy Policy</a></li>-->\r\n<!--                <li><a href=\"/terms\">Terms of Service</a></li>-->\r\n<!--            </ul>-->\r\n<!--        </footer>-->\r\n    </div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/base.html b/templates/base.html
+--- a/templates/base.html	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/templates/base.html	(date 1716877434515)
+@@ -29,13 +29,6 @@
+ 
+         {% block content %}{% endblock %}
+ 
+-<!--        <footer>-->
+-<!--            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>-->
+-<!--            <ul class="footer-links">-->
+-<!--                <li><a href="/privacy">Privacy Policy</a></li>-->
+-<!--                <li><a href="/terms">Terms of Service</a></li>-->
+-<!--            </ul>-->
+-<!--        </footer>-->
+     </div>
+ </body>
+ </html>
+Index: templates/home.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html' %}\r\n\r\n{% block title %}Artistic Gallery{% endblock %}\r\n\r\n{% block content %}\r\n<section class=\"hero\" style=\"flex:1;\">\r\n    <h1>Welcome to Artistic Gallery</h1>\r\n    <p>Your one-stop solution for all Art forms.</p>\r\n</section>\r\n\r\n<section class=\"art-section\">\r\n    <!-- Example of an art card -->\r\n    <div class=\"art-card\">\r\n        <img src=\"{{ url_for('static', filename='art1.jpg') }}\" alt=\"Artwork 1\">\r\n        <h3>Artwork Title</h3>\r\n        <p>by Artist Name</p>\r\n        <div class=\"contact-info\">\r\n            <p>Phone: (123) 456-7890</p>\r\n            <p>Email: artist@example.com</p>\r\n            <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"art-card\">\r\n        <img src=\"{{ url_for('static', filename='art2.jpg') }}\" alt=\"Artwork 2\">\r\n        <h3>Artwork Title</h3>\r\n        <p>by Artist Name</p>\r\n        <div class=\"contact-info\">\r\n            <p>Phone: (123) 456-7890</p>\r\n            <p>Email: artist@example.com</p>\r\n            <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n        </div>\r\n    </div>\r\n\r\n    <!-- Repeat similar structure for more art cards -->\r\n</section>\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/home.html b/templates/home.html
+--- a/templates/home.html	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/templates/home.html	(date 1716877537211)
+@@ -1,37 +1,53 @@
+-{% extends 'base.html' %}
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Artistic Gallery</title>
++    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"> <!-- Use Flask's url_for to link to static files -->
++</head>
++<body>
++    <div class="wrapper">
++        <header>
++            <nav>
++                <div class="logo">Artistic Gallery</div>
++                <ul class="nav-links">
++                    <li><a href="/">Home</a></li>
++                    <li><a href="/about">About</a></li>
++                    <li><a href="/services">Services</a></li>
++                    <li><a href="/contact">Contact</a></li>
++                    <li><a href="/login">Login</a></li>
++                </ul>
++            </nav>
++        </header>
+ 
+-{% block title %}Artistic Gallery{% endblock %}
+-
+-{% block content %}
+-<section class="hero" style="flex:1;">
+-    <h1>Welcome to Artistic Gallery</h1>
+-    <p>Your one-stop solution for all Art forms.</p>
+-</section>
++        <section class="hero">
++            <h1>Welcome to Artistic Gallery</h1>
++            <p>Your one-stop solution for all Art forms.</p>
++        </section>
+ 
+-<section class="art-section">
+-    <!-- Example of an art card -->
+-    <div class="art-card">
+-        <img src="{{ url_for('static', filename='art1.jpg') }}" alt="Artwork 1">
+-        <h3>Artwork Title</h3>
+-        <p>by Artist Name</p>
+-        <div class="contact-info">
+-            <p>Phone: (123) 456-7890</p>
+-            <p>Email: artist@example.com</p>
+-            <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+-        </div>
+-    </div>
++        <section class="art-section">
++            {% for artwork in artwork_details %}
++            <div class="art-card">
++                <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
++                <h3>{{ artwork.artwork_title }}</h3>
++                <p>by {{ artwork.artist_name }}</p>
++                <div class="contact-info">
++                    <p>Phone: {{ artwork.phone }}</p>
++                    <p>Email: {{ artwork.email }}</p>
++                    <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
++                </div>
++            </div>
++            {% endfor %}
++        </section>
+ 
+-    <div class="art-card">
+-        <img src="{{ url_for('static', filename='art2.jpg') }}" alt="Artwork 2">
+-        <h3>Artwork Title</h3>
+-        <p>by Artist Name</p>
+-        <div class="contact-info">
+-            <p>Phone: (123) 456-7890</p>
+-            <p>Email: artist@example.com</p>
+-            <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+-        </div>
++        <footer>
++            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>
++            <ul class="footer-links">
++                <li><a href="/privacy">Privacy Policy</a></li>
++                <li><a href="/terms">Terms of Service</a></li>
++            </ul>
++        </footer>
+     </div>
+-
+-    <!-- Repeat similar structure for more art cards -->
+-</section>
+-{% endblock %}
++</body>
++</html>
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, redirect, url_for, flash, session\r\nfrom werkzeug.security import check_password_hash, generate_password_hash\r\nfrom models import User, Session, UserDetails\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'your_secret_key'\r\n\r\n\r\n@app.route('/contact')\r\ndef contact():\r\n    return render_template('contact.html', username=session.get('username'))\r\n\r\n\r\n@app.route('/services')\r\ndef services():\r\n    return render_template('services.html', username=session.get('username'))\r\n\r\n\r\n@app.route('/about')\r\ndef about():\r\n    return render_template('about.html', username=session.get('username'))\r\n\r\n\r\n@app.route('/signupconf')\r\ndef signupconf():\r\n    return render_template('signupconf.html', username=session.get('username'))\r\n\r\n\r\n@app.route('/')\r\ndef home():\r\n    return render_template('home.html', username=session.get('username'))\r\n\r\n\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        db_session = Session()\r\n\r\n        user = db_session.query(User).filter_by(username=username).first()\r\n        db_session.close()\r\n\r\n        if user and check_password_hash(user.password, password):\r\n            session['username'] = username\r\n            return redirect(url_for('home'))\r\n        else:\r\n            flash('Invalid credentials')\r\n            return redirect(url_for('login'))\r\n\r\n    return render_template('login.html')\r\n\r\n\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        name = request.form.get('name')\r\n        surname = request.form.get('surname')\r\n        email = request.form.get('email')\r\n        mobile_number = request.form.get('mobile_number')\r\n        address = request.form.get('address')\r\n\r\n        if not password:\r\n            flash('Password is required')\r\n            return redirect(url_for('signup'))\r\n\r\n        db_session = Session()\r\n\r\n        existing_user = db_session.query(User).filter_by(username=username).first()\r\n        existing_email = db_session.query(UserDetails).filter_by(email=email).first()\r\n\r\n        if existing_user:\r\n            flash('Username already exists')\r\n            return redirect(url_for('signup'))\r\n\r\n        if existing_email:\r\n            flash('Email already exists')\r\n            return redirect(url_for('signup'))\r\n\r\n        new_user = User(username=username, password=generate_password_hash(password))\r\n        db_session.add(new_user)\r\n        db_session.commit()\r\n\r\n        new_user_details = UserDetails(\r\n            user_id=new_user.id,\r\n            name=name,\r\n            surname=surname,\r\n            email=email,\r\n            mobile_number=mobile_number,\r\n            address=address\r\n        )\r\n        db_session.add(new_user_details)\r\n        db_session.commit()\r\n        db_session.close()\r\n\r\n        return redirect(url_for('signupconf'))\r\n\r\n    return render_template('signup.html')\r\n\r\n\r\n@app.route('/logout')\r\ndef logout():\r\n    session.pop('username', None)\r\n    return redirect(url_for('home'))\r\n\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/app.py	(date 1716877234887)
+@@ -1,56 +1,70 @@
+-from flask import Flask, render_template, request, redirect, url_for, flash, session
++from flask import Flask, render_template, request, redirect, url_for, flash
+ from werkzeug.security import check_password_hash, generate_password_hash
+ from models import User, Session, UserDetails
++import csv
++
++def read_csv_file(file_path):
++    data = []
++    with open(file_path, newline='', encoding='utf-8') as csvfile:
++        reader = csv.DictReader(csvfile)
++        for row in reader:
++            artwork_data = {
++                'sr_no': row['sr. no'],
++                'img_path': row['img path'],
++                'artwork_title': row['Artwork Title'],
++                'artist_name': row['Artist Name'],
++                'phone': row['Phone'],
++                'email': row['Email'],
++                'instagram': row['Instagram']
++            }
++            data.append(artwork_data)
++    return data
+ 
+ app = Flask(__name__)
+ app.secret_key = 'your_secret_key'
+ 
+-
+ @app.route('/contact')
+ def contact():
+-    return render_template('contact.html', username=session.get('username'))
+-
++    return render_template('contact.html')
+ 
+ @app.route('/services')
+ def services():
+-    return render_template('services.html', username=session.get('username'))
+-
++    return render_template('services.html')
+ 
+ @app.route('/about')
+ def about():
+-    return render_template('about.html', username=session.get('username'))
+-
++    return render_template('about.html')
+ 
+ @app.route('/signupconf')
+ def signupconf():
+-    return render_template('signupconf.html', username=session.get('username'))
+-
++    return render_template('signupconf.html')
+ 
+ @app.route('/')
+ def home():
+-    return render_template('home.html', username=session.get('username'))
++    # Read data from CSV file
++    file_path = 'your_csv_file.csv'  # Update with your CSV file path
++    artwork_details = read_csv_file(file_path)
+ 
++    # Pass the data to the template
++    return render_template('home.html', artwork_details=artwork_details)
+ 
+ @app.route('/login', methods=['GET', 'POST'])
+ def login():
+     if request.method == 'POST':
+         username = request.form.get('username')
+         password = request.form.get('password')
+-        db_session = Session()
++        session = Session()
+ 
+-        user = db_session.query(User).filter_by(username=username).first()
+-        db_session.close()
++        user = session.query(User).filter_by(username=username).first()
++        session.close()
+ 
+         if user and check_password_hash(user.password, password):
+-            session['username'] = username
+             return redirect(url_for('home'))
+         else:
+-            flash('Invalid credentials')
+-            return redirect(url_for('login'))
++            return redirect(url_for('login', error='invalid_credentials'))
+ 
+     return render_template('login.html')
+ 
+-
+ @app.route('/signup', methods=['GET', 'POST'])
+ def signup():
+     if request.method == 'POST':
+@@ -63,25 +77,22 @@
+         address = request.form.get('address')
+ 
+         if not password:
+-            flash('Password is required')
+-            return redirect(url_for('signup'))
++            return redirect(url_for('signup', error='password_required'))
+ 
+-        db_session = Session()
++        session = Session()
+ 
+-        existing_user = db_session.query(User).filter_by(username=username).first()
+-        existing_email = db_session.query(UserDetails).filter_by(email=email).first()
++        existing_user = session.query(User).filter_by(username=username).first()
++        existing_email = session.query(UserDetails).filter_by(email=email).first()
+ 
+         if existing_user:
+-            flash('Username already exists')
+-            return redirect(url_for('signup'))
++            return redirect(url_for('signup', error='username_exists'))
+ 
+         if existing_email:
+-            flash('Email already exists')
+-            return redirect(url_for('signup'))
++            return redirect(url_for('signup', error='email_exists'))
+ 
+         new_user = User(username=username, password=generate_password_hash(password))
+-        db_session.add(new_user)
+-        db_session.commit()
++        session.add(new_user)
++        session.commit()
+ 
+         new_user_details = UserDetails(
+             user_id=new_user.id,
+@@ -91,20 +102,13 @@
+             mobile_number=mobile_number,
+             address=address
+         )
+-        db_session.add(new_user_details)
+-        db_session.commit()
+-        db_session.close()
++        session.add(new_user_details)
++        session.commit()
++        session.close()
+ 
+         return redirect(url_for('signupconf'))
+ 
+     return render_template('signup.html')
+ 
+-
+-@app.route('/logout')
+-def logout():
+-    session.pop('username', None)
+-    return redirect(url_for('home'))
+-
+-
+ if __name__ == '__main__':
+     app.run(debug=True)
+Index: .idea/ArtisticGallery.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/ArtisticGallery.iml b/.idea/ArtisticGallery.iml
+--- a/.idea/ArtisticGallery.iml	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/.idea/ArtisticGallery.iml	(date 1716877234878)
+@@ -3,6 +3,7 @@
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
++      <excludeFolder url="file://$MODULE_DIR$/venv" />
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+Index: models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import create_engine, Column, Integer, String, ForeignKey\r\nfrom sqlalchemy.orm import sessionmaker, relationship, declarative_base\r\nimport pymysql\r\n\r\n# Replace 'root' and 'admin' with your actual MySQL username and password\r\nDATABASE_URL = 'mysql+pymysql://root:1234@localhost:3306/artistic_gallery'\r\n\r\ndef create_database_if_not_exists():\r\n    conn = pymysql.connect(host='localhost', user='root', password='1234')\r\n    cursor = conn.cursor()\r\n    cursor.execute(\"CREATE DATABASE IF NOT EXISTS artistic_gallery\")\r\n    conn.close()\r\n\r\ncreate_database_if_not_exists()\r\n\r\nengine = create_engine(DATABASE_URL, echo=True)\r\nBase = declarative_base()\r\n\r\nclass User(Base):\r\n    __tablename__ = 'users'\r\n    id = Column(Integer, primary_key=True)\r\n    username = Column(String(255), unique=True, nullable=False)\r\n    password = Column(String(255), nullable=False)\r\n    details = relationship(\"UserDetails\", back_populates=\"user\", uselist=False)\r\n\r\nclass UserDetails(Base):\r\n    __tablename__ = 'user_details'\r\n    id = Column(Integer, primary_key=True)\r\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\r\n    name = Column(String(255), nullable=False)\r\n    surname = Column(String(255), nullable=True)\r\n    email = Column(String(255), unique=True, nullable=False)\r\n    mobile_number = Column(String(255), nullable=False)\r\n    address = Column(String(255), nullable=True)\r\n    user = relationship(\"User\", back_populates=\"details\")\r\n\r\ndef create_tables():\r\n    Base.metadata.create_all(engine)\r\n\r\ncreate_tables()\r\nSession = sessionmaker(bind=engine)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/models.py b/models.py
+--- a/models.py	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/models.py	(date 1716877234889)
+@@ -3,10 +3,10 @@
+ import pymysql
+ 
+ # Replace 'root' and 'admin' with your actual MySQL username and password
+-DATABASE_URL = 'mysql+pymysql://root:1234@localhost:3306/artistic_gallery'
++DATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'
+ 
+ def create_database_if_not_exists():
+-    conn = pymysql.connect(host='localhost', user='root', password='1234')
++    conn = pymysql.connect(host='localhost', user='root', password='admin')
+     cursor = conn.cursor()
+     cursor.execute("CREATE DATABASE IF NOT EXISTS artistic_gallery")
+     conn.close()
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"993b44e4-204a-48a6-ac2e-503aa11716e6\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/templates/about.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/templates/about.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/templates/contact.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/templates/contact.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/templates/home.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/templates/home.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/templates/services.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/templates/services.html\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 6\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2h56v1GdiyzBFcCc2mGphfJiBtr\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n    <option name=\"showMembers\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"Python.app.executor\": \"Run\",\r\n    \"Python.models.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"Python.app\">\r\n    <configuration name=\"app\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ArtisticGallery\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/app.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"models\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ArtisticGallery\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/models.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.app\" />\r\n        <item itemvalue=\"Python.models\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"993b44e4-204a-48a6-ac2e-503aa11716e6\" name=\"Changes\" comment=\"\" />\r\n      <created>1716871817640</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1716871817640</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/.idea/workspace.xml	(date 1716877565629)
+@@ -4,46 +4,28 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="993b44e4-204a-48a6-ac2e-503aa11716e6" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/templates/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contact.html" afterDir="false" />
++    <list default="true" id="993b44e4-204a-48a6-ac2e-503aa11716e6" name="Changes" comment="New">
++      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/templates/services.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/services.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/your_csv_file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/your_csv_file.csv" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="HTML File" />
+-      </list>
+-    </option>
+-  </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 6
+-}]]></component>
+   <component name="ProjectId" id="2h56v1GdiyzBFcCc2mGphfJiBtr" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+     <option name="showMembers" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "DefaultHtmlFileTemplate": "HTML File",
+-    "Python.app.executor": "Run",
+-    "Python.models.executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main"
+-  }
+-}]]></component>
+   <component name="RunManager" selected="Python.app">
+     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="ArtisticGallery" />
+@@ -112,6 +94,36 @@
+       <option name="presentableId" value="Default" />
+       <updated>1716871817640</updated>
+     </task>
++    <task id="LOCAL-00001" summary="New">
++      <created>1716876684767</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1716876684767</updated>
++    </task>
++    <task id="LOCAL-00002" summary="New">
++      <created>1716876721587</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1716876721587</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="New" />
++    <option name="LAST_COMMIT_MESSAGE" value="New" />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.11 (ArtisticGallery)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.11 (ArtisticGallery)\" project-jdk-type=\"Python SDK\" />\r\n  <component name=\"PyCharmProfessionalAdvertiser\">\r\n    <option name=\"shown\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 2ccef732c9143e61902dbb0c43662958733163e9)
++++ b/.idea/misc.xml	(date 1716877234879)
+@@ -3,7 +3,7 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.11 (ArtisticGallery)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (ArtisticGallery)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (ArtisticGallery)" project-jdk-type="Python SDK" />
+   <component name="PyCharmProfessionalAdvertiser">
+     <option name="shown" value="true" />
+   </component>
+Index: your_csv_file.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/your_csv_file.csv b/your_csv_file.csv
+new file mode 100644
+--- /dev/null	(date 1716877234891)
++++ b/your_csv_file.csv	(date 1716877234891)
+@@ -0,0 +1,6 @@
++sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram
++1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram
++2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram
++3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram
++4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram
++5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1716877305542)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml	(date 1716877305542)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]" date="1716827931222" recycled="false" toDelete="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 5/27/2024 10:08 PM [Changes]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1716877305547)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml	(date 1716877305547)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]" date="1716876158071" recycled="false" toDelete="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 5/28/2024 11:32 AM [Changes]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1716877234880)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]/shelved.patch	(date 1716877234880)
+@@ -0,0 +1,282 @@
++Index: app.py
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom werkzeug.security import check_password_hash, generate_password_hash\r\n\r\nfrom models import User, Session, UserTypes, UserDetails\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'your_secret_key'\r\n\r\n@app.route('/')\r\ndef login():\r\n    return render_template('login.html')\r\n\r\n@app.route('/login', methods=['POST'])\r\ndef login_post():\r\n    username = request.form.get('username')\r\n    password = request.form.get('password')\r\n    session = Session()\r\n\r\n    user = session.query(User).filter_by(username=username).first()\r\n    session.close()\r\n\r\n    if user and check_password_hash(user.password, password):\r\n        return redirect(url_for('home'))\r\n    else:\r\n        flash('Invalid username or password')\r\n        return redirect(url_for('login'))\r\n\r\n@app.route('/signup')\r\ndef signup():\r\n    return render_template('signup.html')\r\n\r\n@app.route('/signup', methods=['POST'])\r\ndef signup_post():\r\n    username = request.form.get('username')\r\n    password = request.form.get('password')\r\n    name = request.form.get('name')\r\n    surname = request.form.get('surname')\r\n    email = request.form.get('email')\r\n    mobile_number = request.form.get('mobile_number')\r\n    address = request.form.get('address')\r\n    user_type_name = request.form.get('user_type')\r\n\r\n    session = Session()\r\n\r\n    existing_user = session.query(User).filter_by(username=username).first()\r\n    existing_email = session.query(UserDetails).filter_by(email=email).first()\r\n\r\n    if existing_user:\r\n        flash('Username already exists')\r\n        session.close()\r\n        return redirect(url_for('signup'))\r\n\r\n    if existing_email:\r\n        flash('Email already exists')\r\n        session.close()\r\n        return redirect(url_for('signup'))\r\n\r\n    user_type = session.query(UserTypes).filter_by(type_name=user_type_name).first()\r\n    if not user_type:\r\n        user_type = UserTypes(type_name=user_type_name)\r\n        session.add(user_type)\r\n        session.commit()\r\n\r\n    new_user = User(username=username, password=generate_password_hash(password))\r\n    session.add(new_user)\r\n    session.commit()\r\n\r\n    new_user_details = UserDetails(\r\n        user_id=new_user.id,\r\n        name=name,\r\n        surname=surname,\r\n        email=email,\r\n        mobile_number=mobile_number,\r\n        address=address,\r\n        user_type_id=user_type.id\r\n    )\r\n    session.add(new_user_details)\r\n    session.commit()\r\n    session.close()\r\n\r\n    flash('User registered successfully')\r\n    return redirect(url_for('login'))\r\n\r\n@app.route('/home')\r\ndef home():\r\n    return render_template('home.html')\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/app.py b/app.py
++--- a/app.py	
+++++ b/app.py	
++@@ -1,86 +1,108 @@
++ from flask import Flask, render_template, request, redirect, url_for, flash
++ from werkzeug.security import check_password_hash, generate_password_hash
++-
++ from models import User, Session, UserTypes, UserDetails
++ 
++ app = Flask(__name__)
++ app.secret_key = 'your_secret_key'
++ 
++-@app.route('/')
++-def login():
++-    return render_template('login.html')
++-
++-@app.route('/login', methods=['POST'])
++-def login_post():
++-    username = request.form.get('username')
++-    password = request.form.get('password')
++-    session = Session()
+++@app.route('/login_new', methods=['GET', 'POST'])
+++def login_new():
+++    if request.method == 'POST':
+++        username = request.form.get('username')
+++        password = request.form.get('password')
+++
+++        session = Session()
++ 
++-    user = session.query(User).filter_by(username=username).first()
++-    session.close()
+++        # Check if user exists
+++        user = session.query(User).filter_by(username=username).first()
+++
+++        if user and check_password_hash(user.password, password):
+++            session.close()
+++            return redirect(url_for('home'))
+++        else:
+++            flash('Invalid username or password', 'error')
+++            session.close()
+++            return redirect(url_for('login_new'))
+++
+++    return render_template('login.html')
+++
+++
+++@app.route('/', methods=['GET', 'POST'])
+++def login():
+++    if request.method == 'POST':
+++        username = request.form.get('username')
+++        password = request.form.get('password')
+++
+++        session = Session()
+++
+++        # Check if user exists
+++        user = session.query(User).filter_by(username=username).first()
++ 
++-    if user and check_password_hash(user.password, password):
++-        return redirect(url_for('home'))
++-    else:
++-        flash('Invalid username or password')
++-        return redirect(url_for('login'))
+++        if user and check_password_hash(user.password, password):
+++            session.close()
+++            return redirect(url_for('home'))
+++        else:
+++            flash('Invalid username or password', 'error')
+++            session.close()
+++            return redirect(url_for('login_new'))
++ 
++-@app.route('/signup')
+++    return render_template('login.html')
+++
+++@app.route('/signup', methods=['GET', 'POST'])
++ def signup():
++-    return render_template('signup.html')
++-
++-@app.route('/signup', methods=['POST'])
++-def signup_post():
++-    username = request.form.get('username')
++-    password = request.form.get('password')
++-    name = request.form.get('name')
++-    surname = request.form.get('surname')
++-    email = request.form.get('email')
++-    mobile_number = request.form.get('mobile_number')
++-    address = request.form.get('address')
++-    user_type_name = request.form.get('user_type')
+++    if request.method == 'POST':
+++        username = request.form.get('username')
+++        password = request.form.get('password')
+++        name = request.form.get('name')
+++        surname = request.form.get('surname')
+++        email = request.form.get('email')
+++        mobile_number = request.form.get('mobile_number')
+++        address = request.form.get('address')
+++        user_type_name = request.form.get('user_type')
++ 
++-    session = Session()
+++        session = Session()
++ 
++-    existing_user = session.query(User).filter_by(username=username).first()
++-    existing_email = session.query(UserDetails).filter_by(email=email).first()
+++        existing_user = session.query(User).filter_by(username=username).first()
+++        existing_email = session.query(UserDetails).filter_by(email=email).first()
++ 
++-    if existing_user:
++-        flash('Username already exists')
++-        session.close()
++-        return redirect(url_for('signup'))
+++        if existing_user:
+++            flash('Username already exists', 'error')
+++            session.close()
+++            return redirect(url_for('signup'))
++ 
++-    if existing_email:
++-        flash('Email already exists')
++-        session.close()
++-        return redirect(url_for('signup'))
+++        if existing_email:
+++            flash('Email already exists', 'error')
+++            session.close()
+++            return redirect(url_for('signup'))
++ 
++-    user_type = session.query(UserTypes).filter_by(type_name=user_type_name).first()
++-    if not user_type:
++-        user_type = UserTypes(type_name=user_type_name)
++-        session.add(user_type)
++-        session.commit()
+++        user_type = session.query(UserTypes).filter_by(type_name=user_type_name).first()
+++        if not user_type:
+++            user_type = UserTypes(type_name=user_type_name)
+++            session.add(user_type)
+++            session.commit()
++ 
++-    new_user = User(username=username, password=generate_password_hash(password))
++-    session.add(new_user)
++-    session.commit()
+++        new_user = User(username=username, password=generate_password_hash(password))
+++        session.add(new_user)
+++        session.commit()
++ 
++-    new_user_details = UserDetails(
++-        user_id=new_user.id,
++-        name=name,
++-        surname=surname,
++-        email=email,
++-        mobile_number=mobile_number,
++-        address=address,
++-        user_type_id=user_type.id
++-    )
++-    session.add(new_user_details)
++-    session.commit()
++-    session.close()
+++        new_user_details = UserDetails(
+++            user_id=new_user.id,
+++            name=name,
+++            surname=surname,
+++            email=email,
+++            mobile_number=mobile_number,
+++            address=address,
+++            user_type_id=user_type.id
+++        )
+++        session.add(new_user_details)
+++        session.commit()
+++        session.close()
++ 
++-    flash('User registered successfully')
++-    return redirect(url_for('login'))
+++        flash('User registered successfully', 'success')
+++        return redirect(url_for('login'))
++ 
+++    return render_template('signup.html')
+++
++ @app.route('/home')
++ def home():
++     return render_template('home.html')
++Index: templates/login.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Login Page</title>\r\n    <link rel=\"stylesheet\" href=\"login_style.css\">\r\n</head>\r\n<body>\r\n    <div class=\"login-container\">\r\n        <h2>Login</h2>\r\n        <form action=\"/login\" method=\"post\" novalidate>\r\n            <div class=\"input-group\">\r\n                <label for=\"username\">Username</label>\r\n                <input type=\"text\" id=\"username\" name=\"username\" required minlength=\"3\" maxlength=\"20\">\r\n                <small class=\"error-message\" id=\"username-error\"></small>\r\n            </div>\r\n            <div class=\"input-group\">\r\n                <label for=\"password\">Password</label>\r\n                <input type=\"password\" id=\"password\" name=\"password\" required minlength=\"6\" maxlength=\"20\">\r\n                <small class=\"error-message\" id=\"password-error\"></small>\r\n            </div>\r\n            <button type=\"submit\">Login</button>\r\n            <div class=\"forgot-password\">\r\n                <a href=\"./forgot_password.html\">Forgot Password?</a>\r\n            </div>\r\n            <div class=\"signup-link\">\r\n                <a href=\"./signup.html\">Don't have an account? Sign up here</a>\r\n            </div>\r\n        </form>\r\n    </div>\r\n    <script src=\"login_script.js\"></script>\r\n</body>\r\n</html>\r\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/templates/login.html b/templates/login.html
++--- a/templates/login.html	
+++++ b/templates/login.html	
++@@ -4,12 +4,24 @@
++     <meta charset="UTF-8">
++     <meta name="viewport" content="width=device-width, initial-scale=1.0">
++     <title>Login Page</title>
++-    <link rel="stylesheet" href="login_style.css">
+++    <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
++ </head>
++ <body>
++     <div class="login-container">
++         <h2>Login</h2>
++-        <form action="/login" method="post" novalidate>
+++
+++        <!-- Flash Messages -->
+++        {% with messages = get_flashed_messages(with_categories=true) %}
+++            {% if messages %}
+++                <ul class="flashes">
+++                    {% for category, message in messages %}
+++                        <li class="{{ category }}">{{ message }}</li>
+++                    {% endfor %}
+++                </ul>
+++            {% endif %}
+++        {% endwith %}
+++
+++        <form action="/" method="post" novalidate>
++             <div class="input-group">
++                 <label for="username">Username</label>
++                 <input type="text" id="username" name="username" required minlength="3" maxlength="20">
++@@ -29,6 +41,6 @@
++             </div>
++         </form>
++     </div>
++-    <script src="login_script.js"></script>
+++    <script src="{{ url_for('static', filename='login_script.js') }}"></script>
++ </body>
++ </html>
++Index: add_user.py
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>from models import User, Session\r\n\r\nsession = Session()\r\n\r\n# Add a sample user\r\nnew_user = User(username=\"testuser\", password=\"testpassword\")\r\nsession.add(new_user)\r\nsession.commit()\r\nsession.close()
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/add_user.py b/add_user.py
++--- a/add_user.py	
+++++ b/add_user.py	
++@@ -1,9 +1,36 @@
++-from models import User, Session
+++from models import User, UserDetails, UserTypes, Session
+++from werkzeug.security import generate_password_hash
++ 
++-session = Session()
+++def add_user(username, password, name, surname, email, mobile_number, address, user_type_name):
+++    session = Session()
++ 
++-# Add a sample user
++-new_user = User(username="testuser", password="testpassword")
++-session.add(new_user)
++-session.commit()
++-session.close()
++\ No newline at end of file
+++    # Check if the user type exists, if not, create it
+++    user_type = session.query(UserTypes).filter_by(type_name=user_type_name).first()
+++    if not user_type:
+++        user_type = UserTypes(type_name=user_type_name)
+++        session.add(user_type)
+++        session.commit()
+++
+++    # Create the user
+++    new_user = User(username=username, password=generate_password_hash(password))
+++    session.add(new_user)
+++    session.commit()
+++
+++    # Create the user details
+++    new_user_details = UserDetails(
+++        user_id=new_user.id,
+++        name=name,
+++        surname=surname,
+++        email=email,
+++        mobile_number=mobile_number,
+++        address=address,
+++        user_type_id=user_type.id
+++    )
+++    session.add(new_user_details)
+++    session.commit()
+++    session.close()
+++
+++    print(f"User {username} added successfully.")
+++
+++if __name__ == '__main__':
+++    add_user('testuser', 'testpassword', 'Test', 'User', 'testuser@example.com', '1234567890', '123 Test St', 'Regular')
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1716877234884)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]/shelved.patch	(date 1716877234884)
+@@ -0,0 +1,134 @@
++Index: templates/home.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Artistic Gallery</title>\r\n    <link rel=\"stylesheet\" href=\"static/home.css\">\r\n</head>\r\n<body>\r\n    <div style=\"display:flex;flex-direction:column;min-height:100vh;\">\r\n        <header>\r\n            <nav>\r\n                <div class=\"logo\">Artistic Gallery</div>\r\n                <ul class=\"nav-links\">\r\n                    <li><a href=\"/\">Home</a></li>\r\n                    <li><a href=\"/about\">About</a></li>\r\n                    <li><a href=\"/services\">Services</a></li>\r\n                    <li><a href=\"/contact\">Contact</a></li>\r\n                    <li><a href=\"/login\">Login</a></li>\r\n                </ul>\r\n            </nav>\r\n        </header>\r\n\r\n        <section class=\"hero\" style=\"flex:1;\">\r\n            <h1>Welcome to Artistic Gallery</h1>\r\n            <p>Your one-stop solution for all Art forms.</p>\r\n        </section>\r\n\r\n        <section class=\"art-section\">\r\n            <!-- Example of an art card -->\r\n            <div class=\"art-card\">\r\n                <img src=\"static/art1.jpg\" alt=\"Artwork 1\">\r\n                <h3>Artwork Title</h3>\r\n                <p>by Artist Name</p>\r\n                <div class=\"contact-info\">\r\n                    <p>Phone: (123) 456-7890</p>\r\n                    <p>Email: artist@example.com</p>\r\n                    <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"art-card\">\r\n                <img src=\"static/art2.jpg\" alt=\"Artwork 2\">\r\n                <h3>Artwork Title</h3>\r\n                <p>by Artist Name</p>\r\n                <div class=\"contact-info\">\r\n                    <p>Phone: (123) 456-7890</p>\r\n                    <p>Email: artist@example.com</p>\r\n                    <p>Instagram: <a href=\"https://instagram.com/artist\" target=\"_blank\">@artist</a></p>\r\n                </div>\r\n            </div>\r\n\r\n            <!-- Repeat similar structure for more art cards -->\r\n        </section>\r\n\r\n        <footer>\r\n            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>\r\n            <ul class=\"footer-links\">\r\n                <li><a href=\"/privacy\">Privacy Policy</a></li>\r\n                <li><a href=\"/terms\">Terms of Service</a></li>\r\n            </ul>\r\n        </footer>\r\n    </div>\r\n</body>\r\n</html>\r\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/templates/home.html b/templates/home.html
++--- a/templates/home.html	
+++++ b/templates/home.html	
++@@ -4,10 +4,10 @@
++     <meta charset="UTF-8">
++     <meta name="viewport" content="width=device-width, initial-scale=1.0">
++     <title>Artistic Gallery</title>
++-    <link rel="stylesheet" href="static/home.css">
+++    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"> <!-- Use Flask's url_for to link to static files -->
++ </head>
++ <body>
++-    <div style="display:flex;flex-direction:column;min-height:100vh;">
+++    <div class="wrapper">
++         <header>
++             <nav>
++                 <div class="logo">Artistic Gallery</div>
++@@ -21,36 +21,24 @@
++             </nav>
++         </header>
++ 
++-        <section class="hero" style="flex:1;">
+++        <section class="hero">
++             <h1>Welcome to Artistic Gallery</h1>
++             <p>Your one-stop solution for all Art forms.</p>
++         </section>
++ 
++         <section class="art-section">
++-            <!-- Example of an art card -->
++-            <div class="art-card">
++-                <img src="static/art1.jpg" alt="Artwork 1">
++-                <h3>Artwork Title</h3>
++-                <p>by Artist Name</p>
++-                <div class="contact-info">
++-                    <p>Phone: (123) 456-7890</p>
++-                    <p>Email: artist@example.com</p>
++-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
++-                </div>
++-            </div>
++-
+++            {% for artwork in artwork_details %}
++             <div class="art-card">
++-                <img src="static/art2.jpg" alt="Artwork 2">
++-                <h3>Artwork Title</h3>
++-                <p>by Artist Name</p>
+++                <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
+++                <h3>{{ artwork.artwork_title }}</h3>
+++                <p>by {{ artwork.artist_name }}</p>
++                 <div class="contact-info">
++-                    <p>Phone: (123) 456-7890</p>
++-                    <p>Email: artist@example.com</p>
++-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+++                    <p>Phone: {{ artwork.phone }}</p>
+++                    <p>Email: {{ artwork.email }}</p>
+++                    <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
++                 </div>
++             </div>
++-
++-            <!-- Repeat similar structure for more art cards -->
+++            {% endfor %}
++         </section>
++ 
++         <footer>
++Index: app.py
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom werkzeug.security import check_password_hash, generate_password_hash\r\nfrom models import User, Session, UserDetails\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'your_secret_key'\r\n\r\n@app.route('/contact')\r\ndef contact():\r\n    return render_template('contact.html')\r\n\r\n@app.route('/services')\r\ndef services():\r\n    return render_template('services.html')\r\n\r\n@app.route('/about')\r\ndef about():\r\n    return render_template('about.html')\r\n\r\n@app.route('/signupconf')\r\ndef signupconf():\r\n    return render_template('signupconf.html')\r\n\r\n@app.route('/')\r\ndef home():\r\n    return render_template('home.html')\r\n\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        session = Session()\r\n\r\n        user = session.query(User).filter_by(username=username).first()\r\n        session.close()\r\n\r\n        if user and check_password_hash(user.password, password):\r\n            return redirect(url_for('home'))\r\n        else:\r\n            return redirect(url_for('login', error='invalid_credentials'))\r\n\r\n    return render_template('login.html')\r\n\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        name = request.form.get('name')\r\n        surname = request.form.get('surname')\r\n        email = request.form.get('email')\r\n        mobile_number = request.form.get('mobile_number')\r\n        address = request.form.get('address')\r\n\r\n        if not password:\r\n            return redirect(url_for('signup', error='password_required'))\r\n\r\n        session = Session()\r\n\r\n        existing_user = session.query(User).filter_by(username=username).first()\r\n        existing_email = session.query(UserDetails).filter_by(email=email).first()\r\n\r\n        if existing_user:\r\n            return redirect(url_for('signup', error='username_exists'))\r\n\r\n        if existing_email:\r\n            return redirect(url_for('signup', error='email_exists'))\r\n\r\n        new_user = User(username=username, password=generate_password_hash(password))\r\n        session.add(new_user)\r\n        session.commit()\r\n\r\n        new_user_details = UserDetails(\r\n            user_id=new_user.id,\r\n            name=name,\r\n            surname=surname,\r\n            email=email,\r\n            mobile_number=mobile_number,\r\n            address=address\r\n        )\r\n        session.add(new_user_details)\r\n        session.commit()\r\n        session.close()\r\n\r\n        return redirect(url_for('signupconf'))\r\n\r\n    return render_template('signup.html')\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/app.py b/app.py
++--- a/app.py	
+++++ b/app.py	
++@@ -1,6 +1,24 @@
++ from flask import Flask, render_template, request, redirect, url_for, flash
++ from werkzeug.security import check_password_hash, generate_password_hash
++ from models import User, Session, UserDetails
+++import csv
+++
+++def read_csv_file(file_path):
+++    data = []
+++    with open(file_path, newline='', encoding='utf-8') as csvfile:
+++        reader = csv.DictReader(csvfile)
+++        for row in reader:
+++            artwork_data = {
+++                'sr_no': row['sr. no'],
+++                'img_path': row['img path'],
+++                'artwork_title': row['Artwork Title'],
+++                'artist_name': row['Artist Name'],
+++                'phone': row['Phone'],
+++                'email': row['Email'],
+++                'instagram': row['Instagram']
+++            }
+++            data.append(artwork_data)
+++    return data
++ 
++ app = Flask(__name__)
++ app.secret_key = 'your_secret_key'
++@@ -23,7 +41,12 @@
++ 
++ @app.route('/')
++ def home():
++-    return render_template('home.html')
+++    # Read data from CSV file
+++    file_path = 'your_csv_file.csv'  # Update with your CSV file path
+++    artwork_details = read_csv_file(file_path)
+++
+++    # Pass the data to the template
+++    return render_template('home.html', artwork_details=artwork_details)
++ 
++ @app.route('/login', methods=['GET', 'POST'])
++ def login():
++Index: your_csv_file.csv
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/your_csv_file.csv b/your_csv_file.csv
++new file mode 100644
++--- /dev/null	
+++++ b/your_csv_file.csv	
++@@ -0,0 +1,6 @@
+++sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram
+++1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram
+++2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram
+++3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram
+++4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram
+++5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM_[Changes]1/shelved.patch
+new file mode 100644
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM_[Changes]1/shelved.patch
+new file mode 100644
