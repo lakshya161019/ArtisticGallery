@@ -1,0 +1,50 @@
+Index: models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import create_engine, Column, Integer, String\r\nfrom sqlalchemy.ext.declarative import declarative_base\r\nfrom sqlalchemy.orm import sessionmaker\r\n\r\nengine = create_engine('sqlite:///users.db', echo=True)\r\nBase = declarative_base()\r\n\r\nclass User(Base):\r\n    __tablename__ = 'users'\r\n    id = Column(Integer, primary_key=True)\r\n    username = Column(String, unique=True, nullable=False)\r\n    password = Column(String, nullable=False)\r\n\r\nBase.metadata.create_all(engine)\r\nSession = sessionmaker(bind=engine)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/models.py b/models.py
+--- a/models.py	
++++ b/models.py	
+@@ -1,6 +1,6 @@
+-from sqlalchemy import create_engine, Column, Integer, String
+-from sqlalchemy.ext.declarative import declarative_base
+-from sqlalchemy.orm import sessionmaker
++from sqlalchemy import create_engine, Column, Integer, String ,ForeignKey
++#from sqlalchemy.ext.declarative import declarative_base
++from sqlalchemy.orm import sessionmaker,relationship, declarative_base
+ 
+ engine = create_engine('sqlite:///users.db', echo=True)
+ Base = declarative_base()
+@@ -10,6 +10,28 @@
+     id = Column(Integer, primary_key=True)
+     username = Column(String, unique=True, nullable=False)
+     password = Column(String, nullable=False)
++    details = relationship("UserDetails", back_populates="user")
++
++class UserDetails(Base):
++    __tablename__ = 'user_details'
++    id = Column(Integer, primary_key=True)
++    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
++    name = Column(String, nullable=False)
++    surname = Column(String, nullable=True)
++    email = Column(String, unique=True, nullable=False)
++    mobile_number = Column(String, nullable=False)
++    user_type_id = Column(Integer, ForeignKey('user_types.id'), nullable=False)
++    address = Column(String, nullable=True)
++    user = relationship("User", back_populates="details")
++    user_type = relationship("UserTypes", back_populates="users")
++
++class UserTypes(Base):
++    __tablename__ = 'user_types'
++    id = Column(Integer, primary_key=True)
++    type_name = Column(String, unique=True, nullable=False)
++    users = relationship("UserDetails", back_populates="user_type")
++
++
+ 
+ Base.metadata.create_all(engine)
+ Session = sessionmaker(bind=engine)
+\ No newline at end of file

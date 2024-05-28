@@ -1,0 +1,776 @@
+Index: your_csv_file.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram\r\n1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram\r\n2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram\r\n3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram\r\n4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram\r\n5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/your_csv_file.csv b/your_csv_file.csv
+--- a/your_csv_file.csv	(revision 446d11ffe6b4f7876aa9ed0d83bca5236a74e3c3)
++++ b/your_csv_file.csv	(date 1716879850166)
+@@ -1,6 +1,10 @@
+ sr. no,img path,Artwork Title,Artist Name,Phone,Email,Instagram
+-1,/images/artwork1.jpg,Artwork 1,Artist A,1234567890,artist_a@example.com,artist_a_instagram
+-2,/images/artwork2.jpg,Artwork 2,Artist B,2345678901,artist_b@example.com,artist_b_instagram
+-3,/images/artwork3.jpg,Artwork 3,Artist C,3456789012,artist_c@example.com,artist_c_instagram
+-4,/images/artwork4.jpg,Artwork 4,Artist D,4567890123,artist_d@example.com,artist_d_instagram
+-5,/images/artwork5.jpg,Artwork 5,Artist E,5678901234,artist_e@example.com,artist_e_instagram
++1,Galleria\Ellora_Caves.jpg,Ellora Caves,Indians, - , - , -
++2,Galleria\Etruscan-Vase-with-Shadows-Betty_woodman,Etruscan Vase,Betty Woodman,455985231,betty.w@gmail.com,Betty Woodman_instagram
++3,Galleria\Katie_Spragg_Cimber_2018,Climber,Katie Spragg,495869697,katie.S@gmail.com,Katie Spragg_instagram
++4,Galleria\MonaLisa_Leonardo_da_vinci,Mona Lisa,Leonardo Da Vinci, - , - , -
++5,Galleria\Ravi_varma,Bhanumati,Ravi Varma,854321659,ravi.V@gmail.com,Ravi Varma_instagram
++6,Galleria\Self_Portrait_1900_Picasso,Self Portrait,Picasso, - , - , -
++7,Galleria\The_Tomb_of_Pope_Julius_Michalangleo,The Tomb of Pope Julius II,Michalangleo, - , - , -
++8,Galleria\The-Great-Sphinx-of-Giza-in-front-of-the-Great-Pyramid-of-Giza-2,The Great Sphinx of Giza,Egyptians, - , - , -
++9,Galleria\The-Tomb-of-the-Craftsman_Grayson_Perry,The Tomb Of Craftsman,Grayson Perry,40568927,grayson.perry@gamil.com,Grayson Perry_instagram
+\ No newline at end of file
+Index: models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import create_engine, Column, Integer, String, ForeignKey\r\nfrom sqlalchemy.orm import sessionmaker, relationship, declarative_base\r\nimport pymysql\r\n\r\n# Replace 'root' and 'admin' with your actual MySQL username and password\r\nDATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'\r\n\r\ndef create_database_if_not_exists():\r\n    conn = pymysql.connect(host='localhost', user='root', password='admin')\r\n    cursor = conn.cursor()\r\n    cursor.execute(\"CREATE DATABASE IF NOT EXISTS artistic_gallery\")\r\n    conn.close()\r\n\r\ncreate_database_if_not_exists()\r\n\r\nengine = create_engine(DATABASE_URL, echo=True)\r\nBase = declarative_base()\r\n\r\nclass User(Base):\r\n    __tablename__ = 'users'\r\n    id = Column(Integer, primary_key=True)\r\n    username = Column(String(255), unique=True, nullable=False)\r\n    password = Column(String(255), nullable=False)\r\n    details = relationship(\"UserDetails\", back_populates=\"user\", uselist=False)\r\n\r\nclass UserDetails(Base):\r\n    __tablename__ = 'user_details'\r\n    id = Column(Integer, primary_key=True)\r\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\r\n    name = Column(String(255), nullable=False)\r\n    surname = Column(String(255), nullable=True)\r\n    email = Column(String(255), unique=True, nullable=False)\r\n    mobile_number = Column(String(255), nullable=False)\r\n    address = Column(String(255), nullable=True)\r\n    user = relationship(\"User\", back_populates=\"details\")\r\n\r\ndef create_tables():\r\n    Base.metadata.create_all(engine)\r\n\r\ncreate_tables()\r\nSession = sessionmaker(bind=engine)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/models.py b/models.py
+--- a/models.py	(revision 446d11ffe6b4f7876aa9ed0d83bca5236a74e3c3)
++++ b/models.py	(date 1716877529518)
+@@ -3,10 +3,10 @@
+ import pymysql
+ 
+ # Replace 'root' and 'admin' with your actual MySQL username and password
+-DATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'
++DATABASE_URL = 'mysql+pymysql://root:root@localhost:3306/artistic_gallery'
+ 
+ def create_database_if_not_exists():
+-    conn = pymysql.connect(host='localhost', user='root', password='admin')
++    conn = pymysql.connect(host='localhost', user='root', password='root')
+     cursor = conn.cursor()
+     cursor.execute("CREATE DATABASE IF NOT EXISTS artistic_gallery")
+     conn.close()
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.11 (ArtisticGallery)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.10 (ArtisticGallery)\" project-jdk-type=\"Python SDK\" />\r\n  <component name=\"PyCharmProfessionalAdvertiser\">\r\n    <option name=\"shown\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 446d11ffe6b4f7876aa9ed0d83bca5236a74e3c3)
++++ b/.idea/misc.xml	(date 1716878334530)
+@@ -3,7 +3,7 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.11 (ArtisticGallery)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (ArtisticGallery)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10" project-jdk-type="Python SDK" />
+   <component name="PyCharmProfessionalAdvertiser">
+     <option name="shown" value="true" />
+   </component>
+Index: Pics.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Pics.csv b/Pics.csv
+new file mode 100644
+--- /dev/null	(date 1716878025166)
++++ b/Pics.csv	(date 1716878025166)
+@@ -0,0 +1,10 @@
++Serial NO	Image	Artwork	Title	Artist	Phone	Email	Instagram
++1	Galleria\Ellora_Caves.jpg	Sculptures	Ellora Caves	Indians	 - 	 - 	 - 
++2	Galleria\Etruscan-Vase-with-Shadows-Betty_woodman	Clay Art	Etruscan Vase	Betty Woodman	455985231	betty.w@gmail.com	Betty Woodman_instagram
++3	Galleria\Katie_Spragg_Cimber_2018	Clay Art	Climber	Katie Spragg	495869697	katie.S@gmail.com	Katie Spragg_instagram
++4	Galleria\MonaLisa_Leonardo_da_vinci	Portraits	Mona Lisa	Leonardo Da Vinci	 - 	 - 	 - 
++5	Galleria\Ravi_varma	Portraits	Bhanumati	Ravi Varma	854321659	ravi.V@gmail.com	Ravi Varma_instagram
++6	Galleria\Self_Portrait_1900_Picasso	Portraits	Self Portrait	Picasso	 - 	 - 	 - 
++7	Galleria\The_Tomb_of_Pope_Julius_Michalangleo	Sculptures	The Tomb of Pope Julius II	Michalangleo	 - 	 - 	 - 
++8	Galleria\The-Great-Sphinx-of-Giza-in-front-of-the-Great-Pyramid-of-Giza-2	Sculptures	The Great Sphinx of Giza	Egyptians	 - 	 - 	 - 
++9	Galleria\The-Tomb-of-the-Craftsman_Grayson_Perry	Clay Art	The Tomb Of Craftsman	Grayson Perry	40568927	grayson.perry@gamil.com	Grayson Perry_instagram
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"993b44e4-204a-48a6-ac2e-503aa11716e6\" name=\"Changes\" comment=\"New\">\r\n      <change beforePath=\"$PROJECT_DIR$/app.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/templates/home.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/templates/home.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/your_csv_file.csv\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/your_csv_file.csv\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2h56v1GdiyzBFcCc2mGphfJiBtr\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n    <option name=\"showMembers\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Python.app\">\r\n    <configuration name=\"app\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ArtisticGallery\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/app.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"models\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ArtisticGallery\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/models.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.app\" />\r\n        <item itemvalue=\"Python.models\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"993b44e4-204a-48a6-ac2e-503aa11716e6\" name=\"Changes\" comment=\"\" />\r\n      <created>1716871817640</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1716871817640</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"New\">\r\n      <created>1716876684767</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1716876684767</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"New\">\r\n      <created>1716876721587</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1716876721587</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"New\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"New\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 446d11ffe6b4f7876aa9ed0d83bca5236a74e3c3)
++++ b/.idea/workspace.xml	(date 1716878652236)
+@@ -5,8 +5,23 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="993b44e4-204a-48a6-ac2e-503aa11716e6" name="Changes" comment="New">
+-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/Ellora_Caves.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/Etruscan-Vase-with-Shadows-Betty_woodman.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/Katie_Spragg_Cimber_2018.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/MonaLisa_Leonardo_da_vinci.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/Ravi_varma.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/Self_Portrait_1900_Picasso.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/The-Great-Sphinx-of-Giza-in-front-of-the-Great-Pyramid-of-Giza-2.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/The-Tomb-of-the-Craftsman_Grayson_Perry.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Galleria/The_Tomb_of_Pope_Julius_Michalangleo.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/Pics.csv" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_27_2024_10_08_PM__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_28_2024_11_32_AM__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/your_csv_file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/your_csv_file.csv" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -25,6 +40,9 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+     <option name="showMembers" value="true" />
++  </component>
++  <component name="PropertiesComponent">
++    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+   </component>
+   <component name="RunManager" selected="Python.app">
+     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+@@ -34,9 +52,9 @@
+       <envs>
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+-      <option name="SDK_HOME" value="" />
++      <option name="SDK_HOME" value="C:\Python312\python.exe" />
+       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+-      <option name="IS_MODULE_SDK" value="true" />
++      <option name="IS_MODULE_SDK" value="false" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+@@ -119,6 +137,7 @@
+         </entry>
+       </map>
+     </option>
++    <option name="oldMeFiltersMigrated" value="true" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="New" />
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.name b/.idea/.name
+new file mode 100644
+--- /dev/null	(date 1716867404435)
++++ b/.idea/.name	(date 1716867404435)
+@@ -0,0 +1,1 @@
++models.py
+\ No newline at end of file
+Index: .idea/dbnavigator.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dbnavigator.xml b/.idea/dbnavigator.xml
+new file mode 100644
+--- /dev/null	(date 1716876496254)
++++ b/.idea/dbnavigator.xml	(date 1716876496254)
+@@ -0,0 +1,598 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="DBNavigator.Project.DatabaseConsoleManager">
++    <connection id="440b0c27-f091-4789-813f-28bd69cb64f9">
++      <console name="Connection" type="STANDARD" schema="" session="Main" />
++    </connection>
++    <connection id="db7bea4a-2380-4a32-8676-cacbf5f356f4">
++      <console name="Connection 1" type="STANDARD" schema="artisticgallery" session="Main">show databases;</console>
++    </connection>
++  </component>
++  <component name="DBNavigator.Project.DatabaseFileManager">
++    <open-files />
++  </component>
++  <component name="DBNavigator.Project.Settings">
++    <connections>
++      <connection id="440b0c27-f091-4789-813f-28bd69cb64f9" active="true" signed="true">
++        <database>
++          <name value="Connection" />
++          <description value="" />
++          <database-type value="SQLITE" />
++          <config-type value="CUSTOM" />
++          <database-version value="3.45" />
++          <driver-source value="BUNDLED" />
++          <driver-library value="" />
++          <driver value="" />
++          <url-type value="FILE" />
++          <host value="" />
++          <port value="" />
++          <database value="" />
++          <tns-folder value="" />
++          <tns-profile value="" />
++          <files />
++          <type value="NONE" />
++          <user value="" />
++          <deprecated-pwd value="" />
++        </database>
++        <properties>
++          <auto-commit value="false" />
++        </properties>
++        <ssh-settings>
++          <active value="false" />
++          <proxy-host value="" />
++          <proxy-port value="22" />
++          <proxy-user value="" />
++          <deprecated-proxy-pwd value="" />
++          <auth-type value="PASSWORD" />
++          <key-file value="" />
++          <key-passphrase value="" />
++        </ssh-settings>
++        <ssl-settings>
++          <active value="false" />
++          <certificate-authority-file value="" />
++          <client-certificate-file value="" />
++          <client-key-file value="" />
++        </ssl-settings>
++        <details>
++          <charset value="UTF-8" />
++          <session-management value="true" />
++          <ddl-file-binding value="true" />
++          <database-logging value="true" />
++          <connect-automatically value="true" />
++          <restore-workspace value="true" />
++          <restore-workspace-deep value="false" />
++          <environment-type value="default" />
++          <connectivity-timeout value="30" />
++          <idle-time-to-disconnect value="30" />
++          <idle-time-to-disconnect-pool value="5" />
++          <credential-expiry-time value="10" />
++          <max-connection-pool-size value="7" />
++          <alternative-statement-delimiter value="" />
++        </details>
++        <debugger>
++          <compile-dependencies value="true" />
++          <tcp-driver-tunneling value="false" />
++          <tcp-host-address value="" />
++          <tcp-port-from value="4000" />
++          <tcp-port-to value="4999" />
++          <debugger-type value="JDBC" />
++        </debugger>
++        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
++          <object-filters />
++          <object-type-filter use-master-settings="true">
++            <object-type name="SCHEMA" enabled="true" />
++            <object-type name="USER" enabled="true" />
++            <object-type name="ROLE" enabled="true" />
++            <object-type name="PRIVILEGE" enabled="true" />
++            <object-type name="CHARSET" enabled="true" />
++            <object-type name="TABLE" enabled="true" />
++            <object-type name="VIEW" enabled="true" />
++            <object-type name="MATERIALIZED_VIEW" enabled="true" />
++            <object-type name="NESTED_TABLE" enabled="true" />
++            <object-type name="COLUMN" enabled="true" />
++            <object-type name="INDEX" enabled="true" />
++            <object-type name="CONSTRAINT" enabled="true" />
++            <object-type name="DATASET_TRIGGER" enabled="true" />
++            <object-type name="DATABASE_TRIGGER" enabled="true" />
++            <object-type name="SYNONYM" enabled="true" />
++            <object-type name="SEQUENCE" enabled="true" />
++            <object-type name="PROCEDURE" enabled="true" />
++            <object-type name="FUNCTION" enabled="true" />
++            <object-type name="PACKAGE" enabled="true" />
++            <object-type name="TYPE" enabled="true" />
++            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
++            <object-type name="ARGUMENT" enabled="true" />
++            <object-type name="DIMENSION" enabled="true" />
++            <object-type name="CLUSTER" enabled="true" />
++            <object-type name="DBLINK" enabled="true" />
++          </object-type-filter>
++        </object-filters>
++      </connection>
++      <connection id="db7bea4a-2380-4a32-8676-cacbf5f356f4" active="true" signed="true">
++        <database>
++          <name value="Connection 1" />
++          <description value="" />
++          <database-type value="MYSQL" />
++          <config-type value="BASIC" />
++          <database-version value="8.3" />
++          <driver-source value="BUNDLED" />
++          <driver-library value="" />
++          <driver value="" />
++          <url-type value="DATABASE" />
++          <host value="localhost" />
++          <port value="3306" />
++          <database value="mysql" />
++          <tns-folder value="" />
++          <tns-profile value="" />
++          <type value="USER_PASSWORD" />
++          <user value="root" />
++          <deprecated-pwd value="cm9vdA==" />
++        </database>
++        <properties>
++          <auto-commit value="false" />
++        </properties>
++        <ssh-settings>
++          <active value="false" />
++          <proxy-host value="" />
++          <proxy-port value="22" />
++          <proxy-user value="" />
++          <deprecated-proxy-pwd value="" />
++          <auth-type value="PASSWORD" />
++          <key-file value="" />
++          <key-passphrase value="" />
++        </ssh-settings>
++        <ssl-settings>
++          <active value="false" />
++          <certificate-authority-file value="" />
++          <client-certificate-file value="" />
++          <client-key-file value="" />
++        </ssl-settings>
++        <details>
++          <charset value="UTF-8" />
++          <session-management value="true" />
++          <ddl-file-binding value="true" />
++          <database-logging value="true" />
++          <connect-automatically value="true" />
++          <restore-workspace value="true" />
++          <restore-workspace-deep value="false" />
++          <environment-type value="default" />
++          <connectivity-timeout value="30" />
++          <idle-time-to-disconnect value="30" />
++          <idle-time-to-disconnect-pool value="5" />
++          <credential-expiry-time value="10" />
++          <max-connection-pool-size value="7" />
++          <alternative-statement-delimiter value="" />
++        </details>
++        <debugger>
++          <compile-dependencies value="true" />
++          <tcp-driver-tunneling value="false" />
++          <tcp-host-address value="" />
++          <tcp-port-from value="4000" />
++          <tcp-port-to value="4999" />
++          <debugger-type value="JDBC" />
++        </debugger>
++        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
++          <object-filters />
++          <object-type-filter use-master-settings="true">
++            <object-type name="SCHEMA" enabled="true" />
++            <object-type name="USER" enabled="true" />
++            <object-type name="ROLE" enabled="true" />
++            <object-type name="PRIVILEGE" enabled="true" />
++            <object-type name="CHARSET" enabled="true" />
++            <object-type name="TABLE" enabled="true" />
++            <object-type name="VIEW" enabled="true" />
++            <object-type name="MATERIALIZED_VIEW" enabled="true" />
++            <object-type name="NESTED_TABLE" enabled="true" />
++            <object-type name="COLUMN" enabled="true" />
++            <object-type name="INDEX" enabled="true" />
++            <object-type name="CONSTRAINT" enabled="true" />
++            <object-type name="DATASET_TRIGGER" enabled="true" />
++            <object-type name="DATABASE_TRIGGER" enabled="true" />
++            <object-type name="SYNONYM" enabled="true" />
++            <object-type name="SEQUENCE" enabled="true" />
++            <object-type name="PROCEDURE" enabled="true" />
++            <object-type name="FUNCTION" enabled="true" />
++            <object-type name="PACKAGE" enabled="true" />
++            <object-type name="TYPE" enabled="true" />
++            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
++            <object-type name="ARGUMENT" enabled="true" />
++            <object-type name="DIMENSION" enabled="true" />
++            <object-type name="CLUSTER" enabled="true" />
++            <object-type name="DBLINK" enabled="true" />
++          </object-type-filter>
++        </object-filters>
++      </connection>
++    </connections>
++    <browser-settings>
++      <general>
++        <display-mode value="TABBED" />
++        <navigation-history-size value="100" />
++        <show-object-details value="false" />
++        <enable-sticky-paths value="true" />
++      </general>
++      <filters>
++        <object-type-filter>
++          <object-type name="SCHEMA" enabled="true" />
++          <object-type name="USER" enabled="true" />
++          <object-type name="ROLE" enabled="true" />
++          <object-type name="PRIVILEGE" enabled="true" />
++          <object-type name="CHARSET" enabled="true" />
++          <object-type name="TABLE" enabled="true" />
++          <object-type name="VIEW" enabled="true" />
++          <object-type name="MATERIALIZED_VIEW" enabled="true" />
++          <object-type name="NESTED_TABLE" enabled="true" />
++          <object-type name="COLUMN" enabled="true" />
++          <object-type name="INDEX" enabled="true" />
++          <object-type name="CONSTRAINT" enabled="true" />
++          <object-type name="DATASET_TRIGGER" enabled="true" />
++          <object-type name="DATABASE_TRIGGER" enabled="true" />
++          <object-type name="SYNONYM" enabled="true" />
++          <object-type name="SEQUENCE" enabled="true" />
++          <object-type name="PROCEDURE" enabled="true" />
++          <object-type name="FUNCTION" enabled="true" />
++          <object-type name="PACKAGE" enabled="true" />
++          <object-type name="TYPE" enabled="true" />
++          <object-type name="TYPE_ATTRIBUTE" enabled="true" />
++          <object-type name="ARGUMENT" enabled="true" />
++          <object-type name="DIMENSION" enabled="true" />
++          <object-type name="CLUSTER" enabled="true" />
++          <object-type name="DBLINK" enabled="true" />
++        </object-type-filter>
++      </filters>
++      <sorting>
++        <object-type name="COLUMN" sorting-type="NAME" />
++        <object-type name="FUNCTION" sorting-type="NAME" />
++        <object-type name="PROCEDURE" sorting-type="NAME" />
++        <object-type name="ARGUMENT" sorting-type="POSITION" />
++        <object-type name="TYPE ATTRIBUTE" sorting-type="POSITION" />
++      </sorting>
++      <default-editors>
++        <object-type name="VIEW" editor-type="SELECTION" />
++        <object-type name="PACKAGE" editor-type="SELECTION" />
++        <object-type name="TYPE" editor-type="SELECTION" />
++      </default-editors>
++    </browser-settings>
++    <navigation-settings>
++      <lookup-filters>
++        <lookup-objects>
++          <object-type name="SCHEMA" enabled="true" />
++          <object-type name="USER" enabled="false" />
++          <object-type name="ROLE" enabled="false" />
++          <object-type name="PRIVILEGE" enabled="false" />
++          <object-type name="CHARSET" enabled="false" />
++          <object-type name="TABLE" enabled="true" />
++          <object-type name="VIEW" enabled="true" />
++          <object-type name="MATERIALIZED VIEW" enabled="true" />
++          <object-type name="INDEX" enabled="true" />
++          <object-type name="CONSTRAINT" enabled="true" />
++          <object-type name="DATASET TRIGGER" enabled="true" />
++          <object-type name="DATABASE TRIGGER" enabled="true" />
++          <object-type name="SYNONYM" enabled="false" />
++          <object-type name="SEQUENCE" enabled="true" />
++          <object-type name="PROCEDURE" enabled="true" />
++          <object-type name="FUNCTION" enabled="true" />
++          <object-type name="PACKAGE" enabled="true" />
++          <object-type name="TYPE" enabled="true" />
++          <object-type name="DIMENSION" enabled="false" />
++          <object-type name="CLUSTER" enabled="false" />
++          <object-type name="DBLINK" enabled="true" />
++        </lookup-objects>
++        <force-database-load value="false" />
++        <prompt-connection-selection value="true" />
++        <prompt-schema-selection value="true" />
++      </lookup-filters>
++    </navigation-settings>
++    <dataset-grid-settings>
++      <general>
++        <enable-zooming value="true" />
++        <enable-column-tooltip value="true" />
++      </general>
++      <sorting>
++        <nulls-first value="true" />
++        <max-sorting-columns value="4" />
++      </sorting>
++      <audit-columns>
++        <column-names value="" />
++        <visible value="true" />
++        <editable value="false" />
++      </audit-columns>
++    </dataset-grid-settings>
++    <dataset-editor-settings>
++      <text-editor-popup>
++        <active value="false" />
++        <active-if-empty value="false" />
++        <data-length-threshold value="100" />
++        <popup-delay value="1000" />
++      </text-editor-popup>
++      <values-actions-popup>
++        <show-popup-button value="true" />
++        <element-count-threshold value="1000" />
++        <data-length-threshold value="250" />
++      </values-actions-popup>
++      <general>
++        <fetch-block-size value="100" />
++        <fetch-timeout value="30" />
++        <trim-whitespaces value="true" />
++        <convert-empty-strings-to-null value="true" />
++        <select-content-on-cell-edit value="true" />
++        <large-value-preview-active value="true" />
++      </general>
++      <filters>
++        <prompt-filter-dialog value="true" />
++        <default-filter-type value="BASIC" />
++      </filters>
++      <qualified-text-editor text-length-threshold="300">
++        <content-types>
++          <content-type name="Text" enabled="true" />
++          <content-type name="Properties" enabled="true" />
++          <content-type name="XML" enabled="true" />
++          <content-type name="DTD" enabled="true" />
++          <content-type name="HTML" enabled="true" />
++          <content-type name="XHTML" enabled="true" />
++          <content-type name="SQL" enabled="true" />
++          <content-type name="PL/SQL" enabled="true" />
++          <content-type name="JSON" enabled="true" />
++          <content-type name="JSON5" enabled="true" />
++          <content-type name="YAML" enabled="true" />
++        </content-types>
++      </qualified-text-editor>
++      <record-navigation>
++        <navigation-target value="VIEWER" />
++      </record-navigation>
++    </dataset-editor-settings>
++    <code-editor-settings>
++      <general>
++        <show-object-navigation-gutter value="false" />
++        <show-spec-declaration-navigation-gutter value="true" />
++        <enable-spellchecking value="true" />
++        <enable-reference-spellchecking value="false" />
++      </general>
++      <confirmations>
++        <save-changes value="false" />
++        <revert-changes value="true" />
++        <exit-on-changes value="ASK" />
++      </confirmations>
++    </code-editor-settings>
++    <code-completion-settings>
++      <filters>
++        <basic-filter>
++          <filter-element type="RESERVED_WORD" id="keyword" selected="true" />
++          <filter-element type="RESERVED_WORD" id="function" selected="true" />
++          <filter-element type="RESERVED_WORD" id="parameter" selected="true" />
++          <filter-element type="RESERVED_WORD" id="datatype" selected="true" />
++          <filter-element type="RESERVED_WORD" id="exception" selected="true" />
++          <filter-element type="OBJECT" id="schema" selected="true" />
++          <filter-element type="OBJECT" id="role" selected="true" />
++          <filter-element type="OBJECT" id="user" selected="true" />
++          <filter-element type="OBJECT" id="privilege" selected="true" />
++          <user-schema>
++            <filter-element type="OBJECT" id="table" selected="true" />
++            <filter-element type="OBJECT" id="view" selected="true" />
++            <filter-element type="OBJECT" id="materialized view" selected="true" />
++            <filter-element type="OBJECT" id="index" selected="true" />
++            <filter-element type="OBJECT" id="constraint" selected="true" />
++            <filter-element type="OBJECT" id="trigger" selected="true" />
++            <filter-element type="OBJECT" id="synonym" selected="false" />
++            <filter-element type="OBJECT" id="sequence" selected="true" />
++            <filter-element type="OBJECT" id="procedure" selected="true" />
++            <filter-element type="OBJECT" id="function" selected="true" />
++            <filter-element type="OBJECT" id="package" selected="true" />
++            <filter-element type="OBJECT" id="type" selected="true" />
++            <filter-element type="OBJECT" id="dimension" selected="true" />
++            <filter-element type="OBJECT" id="cluster" selected="true" />
++            <filter-element type="OBJECT" id="dblink" selected="true" />
++          </user-schema>
++          <public-schema>
++            <filter-element type="OBJECT" id="table" selected="false" />
++            <filter-element type="OBJECT" id="view" selected="false" />
++            <filter-element type="OBJECT" id="materialized view" selected="false" />
++            <filter-element type="OBJECT" id="index" selected="false" />
++            <filter-element type="OBJECT" id="constraint" selected="false" />
++            <filter-element type="OBJECT" id="trigger" selected="false" />
++            <filter-element type="OBJECT" id="synonym" selected="false" />
++            <filter-element type="OBJECT" id="sequence" selected="false" />
++            <filter-element type="OBJECT" id="procedure" selected="false" />
++            <filter-element type="OBJECT" id="function" selected="false" />
++            <filter-element type="OBJECT" id="package" selected="false" />
++            <filter-element type="OBJECT" id="type" selected="false" />
++            <filter-element type="OBJECT" id="dimension" selected="false" />
++            <filter-element type="OBJECT" id="cluster" selected="false" />
++            <filter-element type="OBJECT" id="dblink" selected="false" />
++          </public-schema>
++          <any-schema>
++            <filter-element type="OBJECT" id="table" selected="true" />
++            <filter-element type="OBJECT" id="view" selected="true" />
++            <filter-element type="OBJECT" id="materialized view" selected="true" />
++            <filter-element type="OBJECT" id="index" selected="true" />
++            <filter-element type="OBJECT" id="constraint" selected="true" />
++            <filter-element type="OBJECT" id="trigger" selected="true" />
++            <filter-element type="OBJECT" id="synonym" selected="true" />
++            <filter-element type="OBJECT" id="sequence" selected="true" />
++            <filter-element type="OBJECT" id="procedure" selected="true" />
++            <filter-element type="OBJECT" id="function" selected="true" />
++            <filter-element type="OBJECT" id="package" selected="true" />
++            <filter-element type="OBJECT" id="type" selected="true" />
++            <filter-element type="OBJECT" id="dimension" selected="true" />
++            <filter-element type="OBJECT" id="cluster" selected="true" />
++            <filter-element type="OBJECT" id="dblink" selected="true" />
++          </any-schema>
++        </basic-filter>
++        <extended-filter>
++          <filter-element type="RESERVED_WORD" id="keyword" selected="true" />
++          <filter-element type="RESERVED_WORD" id="function" selected="true" />
++          <filter-element type="RESERVED_WORD" id="parameter" selected="true" />
++          <filter-element type="RESERVED_WORD" id="datatype" selected="true" />
++          <filter-element type="RESERVED_WORD" id="exception" selected="true" />
++          <filter-element type="OBJECT" id="schema" selected="true" />
++          <filter-element type="OBJECT" id="user" selected="true" />
++          <filter-element type="OBJECT" id="role" selected="true" />
++          <filter-element type="OBJECT" id="privilege" selected="true" />
++          <user-schema>
++            <filter-element type="OBJECT" id="table" selected="true" />
++            <filter-element type="OBJECT" id="view" selected="true" />
++            <filter-element type="OBJECT" id="materialized view" selected="true" />
++            <filter-element type="OBJECT" id="index" selected="true" />
++            <filter-element type="OBJECT" id="constraint" selected="true" />
++            <filter-element type="OBJECT" id="trigger" selected="true" />
++            <filter-element type="OBJECT" id="synonym" selected="true" />
++            <filter-element type="OBJECT" id="sequence" selected="true" />
++            <filter-element type="OBJECT" id="procedure" selected="true" />
++            <filter-element type="OBJECT" id="function" selected="true" />
++            <filter-element type="OBJECT" id="package" selected="true" />
++            <filter-element type="OBJECT" id="type" selected="true" />
++            <filter-element type="OBJECT" id="dimension" selected="true" />
++            <filter-element type="OBJECT" id="cluster" selected="true" />
++            <filter-element type="OBJECT" id="dblink" selected="true" />
++          </user-schema>
++          <public-schema>
++            <filter-element type="OBJECT" id="table" selected="true" />
++            <filter-element type="OBJECT" id="view" selected="true" />
++            <filter-element type="OBJECT" id="materialized view" selected="true" />
++            <filter-element type="OBJECT" id="index" selected="true" />
++            <filter-element type="OBJECT" id="constraint" selected="true" />
++            <filter-element type="OBJECT" id="trigger" selected="true" />
++            <filter-element type="OBJECT" id="synonym" selected="true" />
++            <filter-element type="OBJECT" id="sequence" selected="true" />
++            <filter-element type="OBJECT" id="procedure" selected="true" />
++            <filter-element type="OBJECT" id="function" selected="true" />
++            <filter-element type="OBJECT" id="package" selected="true" />
++            <filter-element type="OBJECT" id="type" selected="true" />
++            <filter-element type="OBJECT" id="dimension" selected="true" />
++            <filter-element type="OBJECT" id="cluster" selected="true" />
++            <filter-element type="OBJECT" id="dblink" selected="true" />
++          </public-schema>
++          <any-schema>
++            <filter-element type="OBJECT" id="table" selected="true" />
++            <filter-element type="OBJECT" id="view" selected="true" />
++            <filter-element type="OBJECT" id="materialized view" selected="true" />
++            <filter-element type="OBJECT" id="index" selected="true" />
++            <filter-element type="OBJECT" id="constraint" selected="true" />
++            <filter-element type="OBJECT" id="trigger" selected="true" />
++            <filter-element type="OBJECT" id="synonym" selected="true" />
++            <filter-element type="OBJECT" id="sequence" selected="true" />
++            <filter-element type="OBJECT" id="procedure" selected="true" />
++            <filter-element type="OBJECT" id="function" selected="true" />
++            <filter-element type="OBJECT" id="package" selected="true" />
++            <filter-element type="OBJECT" id="type" selected="true" />
++            <filter-element type="OBJECT" id="dimension" selected="true" />
++            <filter-element type="OBJECT" id="cluster" selected="true" />
++            <filter-element type="OBJECT" id="dblink" selected="true" />
++          </any-schema>
++        </extended-filter>
++      </filters>
++      <sorting enabled="true">
++        <sorting-element type="RESERVED_WORD" id="keyword" />
++        <sorting-element type="RESERVED_WORD" id="datatype" />
++        <sorting-element type="OBJECT" id="column" />
++        <sorting-element type="OBJECT" id="table" />
++        <sorting-element type="OBJECT" id="view" />
++        <sorting-element type="OBJECT" id="materialized view" />
++        <sorting-element type="OBJECT" id="index" />
++        <sorting-element type="OBJECT" id="constraint" />
++        <sorting-element type="OBJECT" id="trigger" />
++        <sorting-element type="OBJECT" id="synonym" />
++        <sorting-element type="OBJECT" id="sequence" />
++        <sorting-element type="OBJECT" id="procedure" />
++        <sorting-element type="OBJECT" id="function" />
++        <sorting-element type="OBJECT" id="package" />
++        <sorting-element type="OBJECT" id="type" />
++        <sorting-element type="OBJECT" id="dimension" />
++        <sorting-element type="OBJECT" id="cluster" />
++        <sorting-element type="OBJECT" id="dblink" />
++        <sorting-element type="OBJECT" id="schema" />
++        <sorting-element type="OBJECT" id="role" />
++        <sorting-element type="OBJECT" id="user" />
++        <sorting-element type="RESERVED_WORD" id="function" />
++        <sorting-element type="RESERVED_WORD" id="parameter" />
++      </sorting>
++      <format>
++        <enforce-code-style-case value="true" />
++      </format>
++    </code-completion-settings>
++    <execution-engine-settings>
++      <statement-execution>
++        <fetch-block-size value="100" />
++        <execution-timeout value="20" />
++        <debug-execution-timeout value="600" />
++        <focus-result value="false" />
++        <prompt-execution value="false" />
++      </statement-execution>
++      <script-execution>
++        <command-line-interfaces />
++        <execution-timeout value="300" />
++      </script-execution>
++      <method-execution>
++        <execution-timeout value="30" />
++        <debug-execution-timeout value="600" />
++        <parameter-history-size value="10" />
++      </method-execution>
++    </execution-engine-settings>
++    <operation-settings>
++      <transactions>
++        <uncommitted-changes>
++          <on-project-close value="ASK" />
++          <on-disconnect value="ASK" />
++          <on-autocommit-toggle value="ASK" />
++        </uncommitted-changes>
++        <multiple-uncommitted-changes>
++          <on-commit value="ASK" />
++          <on-rollback value="ASK" />
++        </multiple-uncommitted-changes>
++      </transactions>
++      <session-browser>
++        <disconnect-session value="ASK" />
++        <kill-session value="ASK" />
++        <reload-on-filter-change value="false" />
++      </session-browser>
++      <compiler>
++        <compile-type value="KEEP" />
++        <compile-dependencies value="ASK" />
++        <always-show-controls value="false" />
++      </compiler>
++    </operation-settings>
++    <ddl-file-settings>
++      <extensions>
++        <mapping file-type-id="VIEW" extensions="vw" />
++        <mapping file-type-id="TRIGGER" extensions="trg" />
++        <mapping file-type-id="PROCEDURE" extensions="prc" />
++        <mapping file-type-id="FUNCTION" extensions="fnc" />
++        <mapping file-type-id="PACKAGE" extensions="pkg" />
++        <mapping file-type-id="PACKAGE_SPEC" extensions="pks" />
++        <mapping file-type-id="PACKAGE_BODY" extensions="pkb" />
++        <mapping file-type-id="TYPE" extensions="tpe" />
++        <mapping file-type-id="TYPE_SPEC" extensions="tps" />
++        <mapping file-type-id="TYPE_BODY" extensions="tpb" />
++      </extensions>
++      <general>
++        <lookup-ddl-files value="true" />
++        <create-ddl-files value="false" />
++        <synchronize-ddl-files value="true" />
++        <use-qualified-names value="false" />
++        <make-scripts-rerunnable value="true" />
++      </general>
++    </ddl-file-settings>
++    <general-settings>
++      <regional-settings>
++        <date-format value="MEDIUM" />
++        <number-format value="UNGROUPED" />
++        <locale value="SYSTEM_DEFAULT" />
++        <use-custom-formats value="false" />
++      </regional-settings>
++      <environment>
++        <environment-types>
++          <environment-type id="development" name="Development" description="Development environment" color="-2430209/-12296320" readonly-code="false" readonly-data="false" />
++          <environment-type id="integration" name="Integration" description="Integration environment" color="-2621494/-12163514" readonly-code="true" readonly-data="false" />
++          <environment-type id="production" name="Production" description="Productive environment" color="-11574/-10271420" readonly-code="true" readonly-data="true" />
++          <environment-type id="other" name="Other" description="" color="-1576/-10724543" readonly-code="false" readonly-data="false" />
++        </environment-types>
++        <visibility-settings>
++          <connection-tabs value="true" />
++          <dialog-headers value="true" />
++          <object-editor-tabs value="true" />
++          <script-editor-tabs value="false" />
++          <execution-result-tabs value="true" />
++        </visibility-settings>
++      </environment>
++    </general-settings>
++  </component>
++</project>
+\ No newline at end of file

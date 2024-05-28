@@ -1,0 +1,41 @@
+Index: models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import create_engine, Column, Integer, String, ForeignKey\r\nfrom sqlalchemy.orm import sessionmaker, relationship, declarative_base\r\nimport pymysql\r\n\r\n# Replace 'root' and 'admin' with your actual MySQL username and password\r\nDATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'\r\n\r\ndef create_database_if_not_exists():\r\n    conn = pymysql.connect(host='localhost', user='root', password='admin')\r\n    cursor = conn.cursor()\r\n    cursor.execute(\"CREATE DATABASE IF NOT EXISTS artistic_gallery\")\r\n    conn.close()\r\n\r\ncreate_database_if_not_exists()\r\n\r\nengine = create_engine(DATABASE_URL, echo=True)\r\nBase = declarative_base()\r\n\r\nclass User(Base):\r\n    __tablename__ = 'users'\r\n    id = Column(Integer, primary_key=True)\r\n    username = Column(String(255), unique=True, nullable=False)\r\n    password = Column(String(255), nullable=False)\r\n    details = relationship(\"UserDetails\", back_populates=\"user\", uselist=False)\r\n\r\nclass UserDetails(Base):\r\n    __tablename__ = 'user_details'\r\n    id = Column(Integer, primary_key=True)\r\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\r\n    name = Column(String(255), nullable=False)\r\n    surname = Column(String(255), nullable=True)\r\n    email = Column(String(255), unique=True, nullable=False)\r\n    mobile_number = Column(String(255), nullable=False)\r\n    address = Column(String(255), nullable=True)\r\n    user = relationship(\"User\", back_populates=\"details\")\r\n\r\ndef create_tables():\r\n    Base.metadata.create_all(engine)\r\n\r\ncreate_tables()\r\nSession = sessionmaker(bind=engine)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/models.py b/models.py
+--- a/models.py	(revision ff9b548e4cb3067ee9a39d59d561f5b71f43b157)
++++ b/models.py	(date 1716868168134)
+@@ -3,10 +3,10 @@
+ import pymysql
+ 
+ # Replace 'root' and 'admin' with your actual MySQL username and password
+-DATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'
++DATABASE_URL = 'mysql+pymysql://root:root@localhost:3306/artistic_gallery'
+ 
+ def create_database_if_not_exists():
+-    conn = pymysql.connect(host='localhost', user='root', password='admin')
++    conn = pymysql.connect(host='localhost', user='root', password='root')
+     cursor = conn.cursor()
+     cursor.execute("CREATE DATABASE IF NOT EXISTS artistic_gallery")
+     conn.close()
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.10 (ArtisticGallery)\" project-jdk-type=\"Python SDK\" />\r\n  <component name=\"PyCharmProfessionalAdvertiser\">\r\n    <option name=\"shown\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision ff9b548e4cb3067ee9a39d59d561f5b71f43b157)
++++ b/.idea/misc.xml	(date 1716868248365)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (ArtisticGallery)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10" project-jdk-type="Python SDK" />
+   <component name="PyCharmProfessionalAdvertiser">
+     <option name="shown" value="true" />
+   </component>
