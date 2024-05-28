@@ -1,0 +1,157 @@
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom werkzeug.security import check_password_hash, generate_password_hash\r\nfrom models import User, Session, UserDetails\r\nimport csv\r\n\r\ndef read_csv_file(file_path):\r\n    data = []\r\n    with open(file_path, newline='', encoding='utf-8') as csvfile:\r\n        reader = csv.DictReader(csvfile)\r\n        for row in reader:\r\n            artwork_data = {\r\n                'sr_no': row['sr. no'],\r\n                'img_path': row['img path'],\r\n                'artwork_title': row['Artwork Title'],\r\n                'artist_name': row['Artist Name'],\r\n                'phone': row['Phone'],\r\n                'email': row['Email'],\r\n                'instagram': row['Instagram']\r\n            }\r\n            data.append(artwork_data)\r\n    return data\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'your_secret_key'\r\n\r\n@app.route('/contact')\r\ndef contact():\r\n    return render_template('contact.html')\r\n\r\n@app.route('/services')\r\ndef services():\r\n    return render_template('services.html')\r\n\r\n@app.route('/about')\r\ndef about():\r\n    return render_template('about.html')\r\n\r\n@app.route('/signupconf')\r\ndef signupconf():\r\n    return render_template('signupconf.html')\r\n\r\n@app.route('/')\r\ndef home():\r\n    # Read data from CSV file\r\n    file_path = 'your_csv_file.csv'  # Update with your CSV file path\r\n    artwork_details = read_csv_file(file_path)\r\n\r\n    # Pass the data to the template\r\n    return render_template('home.html', artwork_details=artwork_details)\r\n\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        session = Session()\r\n\r\n        user = session.query(User).filter_by(username=username).first()\r\n        session.close()\r\n\r\n        if user and check_password_hash(user.password, password):\r\n            return redirect(url_for('home'))\r\n        else:\r\n            return redirect(url_for('login', error='invalid_credentials'))\r\n\r\n    return render_template('login.html')\r\n\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        username = request.form.get('username')\r\n        password = request.form.get('password')\r\n        name = request.form.get('name')\r\n        surname = request.form.get('surname')\r\n        email = request.form.get('email')\r\n        mobile_number = request.form.get('mobile_number')\r\n        address = request.form.get('address')\r\n\r\n        if not password:\r\n            return redirect(url_for('signup', error='password_required'))\r\n\r\n        session = Session()\r\n\r\n        existing_user = session.query(User).filter_by(username=username).first()\r\n        existing_email = session.query(UserDetails).filter_by(email=email).first()\r\n\r\n        if existing_user:\r\n            return redirect(url_for('signup', error='username_exists'))\r\n\r\n        if existing_email:\r\n            return redirect(url_for('signup', error='email_exists'))\r\n\r\n        new_user = User(username=username, password=generate_password_hash(password))\r\n        session.add(new_user)\r\n        session.commit()\r\n\r\n        new_user_details = UserDetails(\r\n            user_id=new_user.id,\r\n            name=name,\r\n            surname=surname,\r\n            email=email,\r\n            mobile_number=mobile_number,\r\n            address=address\r\n        )\r\n        session.add(new_user_details)\r\n        session.commit()\r\n        session.close()\r\n\r\n        return redirect(url_for('signupconf'))\r\n\r\n    return render_template('signup.html')\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	(revision 3e44473b4021f15e70f850e57f1c387aa64a4a76)
++++ b/app.py	(date 1716879031747)
+@@ -1,70 +1,56 @@
+-from flask import Flask, render_template, request, redirect, url_for, flash
++from flask import Flask, render_template, request, redirect, url_for, flash, session
+ from werkzeug.security import check_password_hash, generate_password_hash
+ from models import User, Session, UserDetails
+-import csv
+-
+-def read_csv_file(file_path):
+-    data = []
+-    with open(file_path, newline='', encoding='utf-8') as csvfile:
+-        reader = csv.DictReader(csvfile)
+-        for row in reader:
+-            artwork_data = {
+-                'sr_no': row['sr. no'],
+-                'img_path': row['img path'],
+-                'artwork_title': row['Artwork Title'],
+-                'artist_name': row['Artist Name'],
+-                'phone': row['Phone'],
+-                'email': row['Email'],
+-                'instagram': row['Instagram']
+-            }
+-            data.append(artwork_data)
+-    return data
+ 
+ app = Flask(__name__)
+ app.secret_key = 'your_secret_key'
+ 
++
+ @app.route('/contact')
+ def contact():
+-    return render_template('contact.html')
++    return render_template('contact.html', username=session.get('username'))
++
+ 
+ @app.route('/services')
+ def services():
+-    return render_template('services.html')
++    return render_template('services.html', username=session.get('username'))
++
+ 
+ @app.route('/about')
+ def about():
+-    return render_template('about.html')
++    return render_template('about.html', username=session.get('username'))
++
+ 
+ @app.route('/signupconf')
+ def signupconf():
+-    return render_template('signupconf.html')
++    return render_template('signupconf.html', username=session.get('username'))
++
+ 
+ @app.route('/')
+ def home():
+-    # Read data from CSV file
+-    file_path = 'your_csv_file.csv'  # Update with your CSV file path
+-    artwork_details = read_csv_file(file_path)
++    return render_template('home.html', username=session.get('username'))
+ 
+-    # Pass the data to the template
+-    return render_template('home.html', artwork_details=artwork_details)
+ 
+ @app.route('/login', methods=['GET', 'POST'])
+ def login():
+     if request.method == 'POST':
+         username = request.form.get('username')
+         password = request.form.get('password')
+-        session = Session()
++        db_session = Session()
+ 
+-        user = session.query(User).filter_by(username=username).first()
+-        session.close()
++        user = db_session.query(User).filter_by(username=username).first()
++        db_session.close()
+ 
+         if user and check_password_hash(user.password, password):
++            session['username'] = username
+             return redirect(url_for('home'))
+         else:
+-            return redirect(url_for('login', error='invalid_credentials'))
++            flash('Invalid credentials')
++            return redirect(url_for('login'))
+ 
+     return render_template('login.html')
+ 
++
+ @app.route('/signup', methods=['GET', 'POST'])
+ def signup():
+     if request.method == 'POST':
+@@ -77,22 +63,25 @@
+         address = request.form.get('address')
+ 
+         if not password:
+-            return redirect(url_for('signup', error='password_required'))
++            flash('Password is required')
++            return redirect(url_for('signup'))
+ 
+-        session = Session()
++        db_session = Session()
+ 
+-        existing_user = session.query(User).filter_by(username=username).first()
+-        existing_email = session.query(UserDetails).filter_by(email=email).first()
++        existing_user = db_session.query(User).filter_by(username=username).first()
++        existing_email = db_session.query(UserDetails).filter_by(email=email).first()
+ 
+         if existing_user:
+-            return redirect(url_for('signup', error='username_exists'))
++            flash('Username already exists')
++            return redirect(url_for('signup'))
+ 
+         if existing_email:
+-            return redirect(url_for('signup', error='email_exists'))
++            flash('Email already exists')
++            return redirect(url_for('signup'))
+ 
+         new_user = User(username=username, password=generate_password_hash(password))
+-        session.add(new_user)
+-        session.commit()
++        db_session.add(new_user)
++        db_session.commit()
+ 
+         new_user_details = UserDetails(
+             user_id=new_user.id,
+@@ -102,13 +91,20 @@
+             mobile_number=mobile_number,
+             address=address
+         )
+-        session.add(new_user_details)
+-        session.commit()
+-        session.close()
++        db_session.add(new_user_details)
++        db_session.commit()
++        db_session.close()
+ 
+         return redirect(url_for('signupconf'))
+ 
+     return render_template('signup.html')
+ 
++
++@app.route('/logout')
++def logout():
++    session.pop('username', None)
++    return redirect(url_for('home'))
++
++
+ if __name__ == '__main__':
+     app.run(debug=True)
