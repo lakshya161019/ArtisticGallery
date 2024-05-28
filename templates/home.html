@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistic Gallery</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"> <!-- Use Flask's url_for to link to static files -->
 </head>
 <body>
-    <div style="display:flex;flex-direction:column;min-height:100vh;">
+    <div class="wrapper">
         <header>
             <nav>
                 <div class="logo">Artistic Gallery</div>
@@ -16,46 +16,29 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact</a></li>
-                    {% if username %}
-                        <li><a href="/logout">Logout</a></li>
-                        <li><span>{{ username }}</span></li>
-                    {% else %}
-                        <li><a href="/login">Login</a></li>
-                    {% endif %}
+                    <li><a href="/login">Login</a></li>
                 </ul>
             </nav>
         </header>
 
-        <section class="hero" style="flex:1;">
+        <section class="hero">
             <h1>Welcome to Artistic Gallery</h1>
             <p>Your one-stop solution for all Art forms.</p>
         </section>
 
         <section class="art-section">
-            <!-- Example of an art card -->
+            {% for artwork in artwork_details %}
             <div class="art-card">
-                <img src="{{ url_for('static', filename='art1.jpg') }}" alt="Artwork 1">
-                <h3>Artwork Title</h3>
-                <p>by Artist Name</p>
+                <img src="{{ artwork.img_path }}" alt="{{ artwork.artwork_title }}">
+                <h3>{{ artwork.artwork_title }}</h3>
+                <p>by {{ artwork.artist_name }}</p>
                 <div class="contact-info">
-                    <p>Phone: (123) 456-7890</p>
-                    <p>Email: artist@example.com</p>
-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+                    <p>Phone: {{ artwork.phone }}</p>
+                    <p>Email: {{ artwork.email }}</p>
+                    <p>Instagram: <a href="https://instagram.com/{{ artwork.instagram }}" target="_blank">@{{ artwork.instagram }}</a></p>
                 </div>
             </div>
-
-            <div class="art-card">
-                <img src="{{ url_for('static', filename='art2.jpg') }}" alt="Artwork 2">
-                <h3>Artwork Title</h3>
-                <p>by Artist Name</p>
-                <div class="contact-info">
-                    <p>Phone: (123) 456-7890</p>
-                    <p>Email: artist@example.com</p>
-                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
-                </div>
-            </div>
-
-            <!-- Repeat similar structure for more art cards -->
+            {% endfor %}
         </section>
 
         <footer>
