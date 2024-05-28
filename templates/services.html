@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Art Gallery Services{% endblock %}
+<!--{% block title %}Art Gallery Services{% endblock %}-->
 
 {% block content %}
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Gallery Services</title>
+<!--    <title>Artistic Gallery Services</title>-->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +29,15 @@
             margin-top: 0;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
         .service {
             background-color: #fff;
             padding: 15px;
@@ -37,6 +46,9 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            flex: 0 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+            text-align: center;
         }
 
         .service:hover {
@@ -46,6 +58,7 @@
         .service h2 {
             margin-top: 0;
             color: #007bff;
+            text-align: center;
         }
 
         .service p {
@@ -57,12 +70,24 @@
             margin: 0 auto;
             max-width: 150px;
         }
+
+        @media (max-width: 768px) {
+            .service {
+                flex: 0 1 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .service {
+                flex: 0 1 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <img src="your_logo.png" alt="Art Gallery Logo" class="logo">
-        <h1>Art Gallery Services</h1>
+        <img src="your_logo.png" alt="Artistic Logo" class="logo">
+        <h1>Artistic Gallery Services</h1>
     </header>
 
     <div class="container">
