@@ -1,0 +1,17 @@
+Before Running app.py
+Make Following changes to models.py
+
+LINE 6:
+DATABASE_URL = 'mysql+pymysql://username:password@localhost:3306/artistic_gallery'
+
+Change the username password to your mySQL localhost3306 instance
+for eg. if
+username = root
+password = admin
+
+DATABASE_URL = 'mysql+pymysql://root:admin@localhost:3306/artistic_gallery'
+
+LINE 9:
+Similarly for this line as well
+
+conn = pymysql.connect(host='localhost', user='root', password='admin')
