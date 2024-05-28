@@ -5,6 +5,22 @@ from models import User, Session, UserDetails
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/services')
+def services():
+    return render_template('services.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/signupconf')
+def signupconf():
+    return render_template('signupconf.html')
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -67,7 +83,7 @@ def signup():
         session.commit()
         session.close()
 
-        return redirect(url_for('login', success='registered'))
+        return redirect(url_for('signupconf'))
 
     return render_template('signup.html')
 
