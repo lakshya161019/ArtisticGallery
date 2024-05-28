@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from models import User, Session, UserDetails
+import csv
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-
-import csv
 
 def read_csv_file(file_path):
     data = []
@@ -24,35 +23,11 @@ def read_csv_file(file_path):
             data.append(artwork_data)
     return data
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', username=session.get('username'))
-
-
-@app.route('/services')
-def services():
-    return render_template('services.html', username=session.get('username'))
-
-
-@app.route('/about')
-def about():
-    return render_template('about.html', username=session.get('username'))
-
-
-@app.route('/signupconf')
-def signupconf():
-    return render_template('signupconf.html', username=session.get('username'))
-
-
 @app.route('/')
 def home():
-    # Read data from CSV file
     file_path = 'your_csv_file.csv'  # Update with your CSV file path
     artwork_details = read_csv_file(file_path)
-
-    # Pass the data to the template
-    return render_template('home.html', artwork_details=artwork_details,username=session.get('username'))
-
+    return render_template('home.html', artwork_details=artwork_details, username=session.get('username'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -69,10 +44,9 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Invalid credentials')
-            return redirect(url_for('login'))
+            return redirect(url_for('login', error='invalid_credentials'))
 
     return render_template('login.html')
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -122,12 +96,26 @@ def signup():
 
     return render_template('signup.html')
 
+@app.route('/signupconf')
+def signupconf():
+    return render_template('signupconf.html', username=session.get('username'))
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', username=session.get('username'))
+
+@app.route('/services')
+def services():
+    return render_template('services.html', username=session.get('username'))
+
+@app.route('/about')
+def about():
+    return render_template('about.html', username=session.get('username'))
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
-
 
 if __name__ == '__main__':
     app.run(debug=True)
