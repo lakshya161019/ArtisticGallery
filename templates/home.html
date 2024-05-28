@@ -3,32 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Artistic Gallery</title>
     <link rel="stylesheet" href="static/home.css">
 </head>
 <body>
-    <div style="display:flex;flex-direction:column">
-    <header>
-        <nav>
-            <div class="logo">Artistic Gallery</div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/services">Services</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/login">Login</a></li>
+    <div style="display:flex;flex-direction:column;min-height:100vh;">
+        <header>
+            <nav>
+                <div class="logo">Artistic Gallery</div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero" style="flex:1;">
+            <h1>Welcome to Artistic Gallery</h1>
+            <p>Your one-stop solution for all Art forms.</p>
+        </section>
+
+        <section class="art-section">
+            <!-- Example of an art card -->
+            <div class="art-card">
+                <img src="static/art1.jpg" alt="Artwork 1">
+                <h3>Artwork Title</h3>
+                <p>by Artist Name</p>
+                <div class="contact-info">
+                    <p>Phone: (123) 456-7890</p>
+                    <p>Email: artist@example.com</p>
+                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+                </div>
+            </div>
+
+            <div class="art-card">
+                <img src="static/art2.jpg" alt="Artwork 2">
+                <h3>Artwork Title</h3>
+                <p>by Artist Name</p>
+                <div class="contact-info">
+                    <p>Phone: (123) 456-7890</p>
+                    <p>Email: artist@example.com</p>
+                    <p>Instagram: <a href="https://instagram.com/artist" target="_blank">@artist</a></p>
+                </div>
+            </div>
+
+            <!-- Repeat similar structure for more art cards -->
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Artistic Gallery. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a href="/terms">Terms of Service</a></li>
             </ul>
-        </nav>
-    </header>
-
-    <section class="hero" style="flex:1">
-        <h1>Welcome to Artistic Gallery</h1>
-        <p>one-stop solution for all Art forms.</p>
-    </section>
-
-    <footer style="position:bottom">
-        <p>&copy; 2024 MyWebsite. All rights reserved.</p>
-    </footer>
+        </footer>
     </div>
 </body>
 </html>
